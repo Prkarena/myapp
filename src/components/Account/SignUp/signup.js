@@ -3,10 +3,11 @@
  * 
  */
 import React , { Component } from 'react';
-
+import { Redirect  } from 'react-router-dom';
 import DynamicForm from '../../Widgets/DynamicForm/dynamicForm';
 /*-------- CSS -----------*/
 import './signup.css';
+import { firebaseDB } from '../../../firebase';
 
 class SignUp extends Component  {
 
@@ -104,6 +105,22 @@ class SignUp extends Component  {
 
     }
 
+    submitData = (dataToSubmit) => {
+/*
+        let user = dataToSubmit.email;
+        let password = dataToSubmit.password;
+        dataToSubmit = [user,password];
+
+        firebaseDB.collection("users").doc(user).set({
+            dataToSubmit
+        }).then(function(docRef){
+            <Redirect to="/login" />
+        }).then(function(error){
+            console.log('error adding document ',error)
+        })
+*/
+    }
+
 
     render(){
         return(
@@ -112,6 +129,7 @@ class SignUp extends Component  {
                 for = {this.state.for}
                 formData = { this.state.formData }
                 change = {this.updateForm}
+                submitData = { this.submitData }
             /> 
          
       )

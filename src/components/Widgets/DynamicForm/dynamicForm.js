@@ -233,7 +233,7 @@ const submitForm = (event) => {
         dataToSubmit[key] = props.formData[key].value
     }
    
-    //props.change(dataToSubmit)
+    props.submitData(dataToSubmit)
 
 }
 

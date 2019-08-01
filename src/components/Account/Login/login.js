@@ -3,10 +3,12 @@
  * 
  */
 import React , { Component } from 'react';
-
+/*-------- Component -----------*/
 import DynamicForm from '../../Widgets/DynamicForm/dynamicForm';
 /*-------- CSS -----------*/
 import './login.css';
+/*------- Firebase Database -----------*/
+import firebaseDB from '../../../firebase';
 
 class Login extends Component  {
 

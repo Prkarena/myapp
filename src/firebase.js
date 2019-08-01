@@ -20,9 +20,11 @@
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   //Database 
-  const database = firebase.firestore();
+  const firebaseDB = firebase.firestore();
 
-
+  export{
+    firebaseDB
+  }
 
 /*------ Add data
 
