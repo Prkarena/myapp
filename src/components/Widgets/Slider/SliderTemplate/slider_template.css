@@ -1,0 +1,15 @@
+.sliderButtonDiv{
+    position: absolute;
+    justify-content: space-between;
+    top: 180px;
+    z-index: 1000;
+
+}
+
+
+
+/*-------------- Responsive ---------------*/
+@media only screen and (max-width: 767px){
+  
+  
+}

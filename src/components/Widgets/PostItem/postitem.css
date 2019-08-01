@@ -1,0 +1,26 @@
+.post_header{
+    background-size : cover !important;
+    background-repeat: no-repeat;
+    width: 100% ;
+    height: 570px;
+}
+.postitem{
+    margin-bottom: 150px;
+}
+@media only screen and (max-width: 700px){
+    /*--------  --------*/
+    
+    .post_header{
+        height: 340px;
+    }
+
+}
+
+@media only screen and (max-width: 500px){
+    /*--------  --------*/
+    
+    .post_header{
+        height: 240px;
+    }
+
+}

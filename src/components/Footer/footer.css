@@ -1,0 +1,18 @@
+
+    .stickToBottom {
+      width: 100% ;
+      position: fixed;
+      bottom: 0;
+      margin-right: 5px ;
+    }
+
+   .link {
+       text-decoration: none;
+       color: gray;
+   }
+
+   .link :hover {
+       text-decoration: none;
+   }
+
+ 

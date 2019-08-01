@@ -1,0 +1,3968 @@
+1. header
+    1.1 sidebar 
+    1.2 logo 
+    1.3 notification
+2. content : as per footer route 
+3. footer
+    3.1 bottom navigation bar 
+        3.1.1   home : videos , images ,documents 
+        3.1.2   video : category wise videos
+        3.1.3   event
+        3.1.4   dairy 
+        3.1.5   feedback 
+
+
+
+
+=========================================
+1. Create React Project 
+> cmd: create-react-app application-name 
+
+2. Delete all files and start from screatch : 
+
+3. Create Folder Structure 
+
+4. Put Images in public Folder 
+
+5. Install needed Things 
+> Router                :   react-router-dom 
+> Font-Awesome          :   https://cdnjs.com/libraries/font-awesome            :- react-fontawesome   , https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/fontawesome.min.css
+> Side-Nav Dependency   :   https://github.com/gauravchl/react-simple-sidenav   :- react-simple-sidenav
+> Slider                :   https://github.com/akiran/react-slick               :- react-slick and add into index.html :
+                                                                                    <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
+                                                                                    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
+             
+> Material design bootstrap  :  https://mdbootstrap.com/  :-  npm install mdbreact
+                             :  https://mdbootstrap.com/docs/react/
+
+
+> Material UI React : https://material-ui.com
+                      npm install @material-ui/core
+                      npm install @material-ui/icons    
+                    > https://www.materialui.co/icons?s=images
+
+=============================================================================
+
+> FontAwesome : npm install @fortawesome/fontawesome-svg-core --save
+                npm install @fortawesome/react-fontawesome --save
+                npm install @fortawesome/free-solid-svg-icons --save (regular,brands,..)
+
+              > import { library } from '@fortawesome/fontawesome-svg-core'
+              > import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+              > import { fab } from '@fortawesome/free-brands-svg-icons'
+              > import { faCheckSquare, faCoffee } from '@fortawesome/free-solid-svg-icons'
+
+              Example : ------------------------------------------------------------------
+                    
+                library.add(fab, faCheckSquare, faCoffee)
+              
+              ----------------------------------------------------------------------------
+
+              https://www.npmjs.com/package/@fortawesome/react-fontawesome
+
+              Font-Awesome icons :- 
+              https://fontawesome.com/icons?d=gallery 
+              ======================================================
+               
+              
+
+
+===============================================================================
+                
+> // if you just want the free things
+npm i -S @fortawesome/fontawesome-svg-core @fortawesome/react-fontawesome @fortawesome/free-regular-svg-icons @fortawesome/free-solid-svg-icons @fortawesome/free-light-svg-icons @fortawesome/free-brands-svg-icons
+
+
+Example : npm install  react-router-dom react-fontawesome react-simple-sidenav react-slick --save
+
+/*****************************************************************************
+* 
+* Loader :     <Loader/> in Index.js
+* 
+******************************************************************************/
+
+*6. Index.js ---------------------------------
+
+/**
+ * Index.js : Main Component 
+ * BrowserRouter : Routes 
+ * Header and Footer for all routes 
+ */
+import React from 'react';
+import ReactDom from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
+ /****************** Components ******************/
+import Routes from './routes';
+import Loader from './components/Loader/loader';
+import Header from './components/Header/header';
+import Footer from './components/Footer/footer';
+/********************* Css ************************/
+import './css/index.css';
+
+const App = () => {
+
+//loader time out function 
+const loaderTimeOut = () => { 
+    setTimeout(() => {
+        let mainContainer = document.getElementsByClassName("mainContainer")[0];
+        mainContainer.style.display = "block";
+        let loader = document.getElementsByClassName("loader-bg")[0];
+        loader.style.display = "none";
+    },
+    1000);
+}
+
+loaderTimeOut();
+
+    return(
+        <BrowserRouter>
+            <Loader/>
+            <div className = "mainContainer">
+                <Header/>   
+                    <Routes/>
+                <Footer />
+            </div>
+        </BrowserRouter>
+    )
+}
+
+ReactDom.render(<App/>,document.getElementById('root'));
+
+----------------------------------*/
+
+* Loader.js ------------------------------
+import React from 'react';
+/**   Css   **/
+import './loader.css';
+
+const Loader = () =>{
+
+//********* page loader js
+
+return(
+   <div className="loader-bg">
+        <div className="loader">
+        <label id="loader-label-name">E-Com</label>
+                <span></span>
+                <span></span>
+                <span></span>
+        </div>
+    </div>
+)
+}
+
+
+export default Loader;
+
+-----------------------------------------*/
+
+*Style.css 
+
+/*-------------- 2. Preloader css starts ---------------*/
+.loader-bg {
+    position: fixed;
+    z-index: 9999999;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, silver, teal);
+}
+
+.loader {
+    width: 16em;
+    height: 8em;
+    position: absolute;
+    top: calc(50vh - 95px);
+    left: calc(50vw - 130px);
+    overflow: hidden;
+}
+
+.loader::before,
+.loader::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+}
+
+.loader::before {
+    width: inherit;
+    height: 0.2em;
+    background-color: hsla(0, 0%, 85%);
+}
+
+.loader::after {
+    box-sizing: border-box;
+    width: 50%;
+    height: inherit;
+    border: 0.2em solid hsla(0, 0%, 85%);
+    border-radius: 50%;
+    left: 25%;
+}
+
+.loader span {
+    position: absolute;
+    width: 5%;
+    height: 10%;
+    background-color: white;
+    border-radius: 50%;
+    bottom: 0.2em;
+    left: -5%;
+    animation: 2s linear infinite;
+    transform-origin: 50% -3em;
+    animation-name: run, rotating;
+}
+
+.loader span:nth-child(2) {animation-delay: 0.075s;}
+.loader span:nth-child(3) {animation-delay: 0.15s;}
+
+@keyframes run {
+    0% {left: -5%;}
+    10%, 60% {left: calc((100% - 5%) / 2);}
+    70%, 100% {left: 100%;}
+}
+
+@keyframes rotating {
+    0%, 10% {transform: rotate(0deg);}
+    60%, 100% {transform: rotate(-1turn);}
+}
+
+#loader-label-name{
+    position: relative;
+    color: white;
+    margin-top: 50px;
+    margin-left: 110px;
+}
+
+
+
+
+/*-------------- Preloader css ends ---------------*/
+
+*Responsive.css
+
+
+@media only screen and (max-width: 767px){
+/*--------  --------*/
+
+
+}
+
+>     this.loaderTimeOut();
+
+  //loader time out function 
+    loaderTimeOut = () => { 
+        setTimeout(() => {
+        let mainContainer = document.getElementsByClassName("mainContainer")[0];
+        mainContainer.style.display = "block";
+        let loader = document.getElementsByClassName("loader-bg")[0];
+            loader.style.display = "none";
+        },1000);
+    }
+
+
+==============================================================================
+
+
+7. Create route.js file saperatly for routers
+
+/************************************************************
+ * Routes : returns routes of our application for router
+ * 
+ */
+
+
+ import React from 'react';
+ import { Route , Switch } from 'react-router-dom';
+ /****************** Components ******************/
+ import Home from './components/Home/home';
+
+
+ const Routes = () => {
+     return (
+         <Switch>
+             <Route path="/" exact component={Home}/>
+         </Switch>
+     )
+ }
+
+ export default Routes;
+
+*******************************************************************/
+
+8. Header
+
+8.1 : side bar 
+
+
+> Material UI React : https://material-ui.com
+                      npm install @material-ui/core
+                      npm install @material-ui/icons    
+                    > https://www.materialui.co/icons?s=images   
+
+
+                    
+
+
+*************************************************************
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
+
+const useStyles = makeStyles({
+  list: {
+    width: 250,
+  },
+  fullList: {
+    width: 'auto',
+  },
+});
+
+export default function Header() {
+  const classes = useStyles();
+  const [state, setState] = React.useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
+  });
+
+  const toggleDrawer = (side, open) => event => {
+    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setState({ ...state, [side]: open });
+  };
+
+  const sideList = side => (
+    <div
+      className={classes.list}
+      role="presentation"
+      onClick={toggleDrawer(side, false)}
+      onKeyDown={toggleDrawer(side, false)}
+    >
+      <List>
+        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+    </div>
+  );
+
+  const fullList = side => (
+    <div
+      className={classes.fullList}
+      role="presentation"
+      onClick={toggleDrawer(side, false)}
+      onKeyDown={toggleDrawer(side, false)}
+    >
+      <List>
+        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+    </div>
+  );
+
+  return (
+    <div>
+      <Button onClick={toggleDrawer('left', true)}>Open Left</Button>
+      <Button onClick={toggleDrawer('right', true)}>Open Right</Button>
+      <Button onClick={toggleDrawer('top', true)}>Open Top</Button>
+      <Button onClick={toggleDrawer('bottom', true)}>Open Bottom</Button>
+      <SwipeableDrawer
+        open={state.left}
+        onClose={toggleDrawer('left', false)}
+        onOpen={toggleDrawer('left', true)}
+      >
+        {sideList('left')}
+      </SwipeableDrawer>
+      <SwipeableDrawer
+        anchor="top"
+        open={state.top}
+        onClose={toggleDrawer('top', false)}
+        onOpen={toggleDrawer('top', true)}
+      >
+        {fullList('top')}
+      </SwipeableDrawer>
+      <SwipeableDrawer
+        anchor="bottom"
+        open={state.bottom}
+        onClose={toggleDrawer('bottom', false)}
+        onOpen={toggleDrawer('bottom', true)}
+      >
+        {fullList('bottom')}
+      </SwipeableDrawer>
+      <SwipeableDrawer
+        anchor="right"
+        open={state.right}
+        onClose={toggleDrawer('right', false)}
+        onOpen={toggleDrawer('right', true)}
+      >
+        {sideList('right')}
+      </SwipeableDrawer>
+    </div>
+  );
+}
+
+============================== Example ==========================
+
+
+
+
+import React , { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+/*======== Components ==========*/
+
+import SideBar from '../SideNavBar/sidenavbar';
+
+ const Header = () => {
+/*----------- CSS --------------*/
+  const classes = useStyles();
+
+/*----------- Swipable Drawer Start --------------*/
+
+  const [state, setState] = useState({
+    isOpen: false
+  });
+
+  const toggleDrawer = (open) => event => {
+    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setState({
+       isOpen : open
+    });
+  
+  };
+
+  const openSidebar = () => {
+
+   return toggleDrawer(true);
+
+  }
+  
+/*----------- Swipable Drawer End --------------*/
+  return (
+
+    <div className={classes.header}>
+
+        {/* Sidebar Button */}
+        <IconButton onClick={openSidebar()}>
+          <MenuIcon className={classes.iconColor} />
+        </IconButton>
+        {/* SwipeableDrawer */}      
+        <SideBar 
+          open={state.isOpen}
+          onClose={toggleDrawer(false)}
+          onOpen={toggleDrawer(true)}
+        />
+
+    </div>
+  );
+}
+
+const useStyles = makeStyles({
+  list: {
+    width: 250,
+  },
+});
+
+
+export default Header;
+
+------------------ Sidebar start -----------------
+SideBar : 
+
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+
+/*======== Components ==========*/
+import SideBarLayout from '../SideNavBar/SidebarLayout/sidebarlayout';
+
+ const SideBar = (props) => {
+/*----------- CSS --------------*/
+  const classes = useStyles();
+
+/*----------- Swipable Drawer Start --------------*/
+
+/*----------- Swipable Drawer End --------------*/
+  return (
+
+    <span className={classes.sidebar}>
+        {/* SwipeableDrawer */}
+        <SwipeableDrawer
+        open={props.open}
+        onClose={props.onClose}
+        onOpen={props.onOpen}
+        >
+        {/* SideList */}          
+          <SideBarLayout {...props} />
+        </SwipeableDrawer>
+    </span>
+  );
+}
+
+const useStyles = makeStyles({
+ 
+ 
+});
+
+
+export default SideBar; 
+
+
+---------------------------- SideBar SideBarLayout
+
+/*---------------------Dynamic link creation 
+*Font Awesome : 
+*FontAwesome :  npm install @fortawesome/fontawesome-svg-core --save
+                npm install @fortawesome/react-fontawesome --save
+                npm install @fortawesome/free-solid-svg-icons --save (regular,brands,..)
+
+              > import { library } from '@fortawesome/fontawesome-svg-core'
+              > import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+              > import { fab } from '@fortawesome/free-brands-svg-icons'
+              > import { faCheckSquare, faCoffee } from '@fortawesome/free-solid-svg-icons'
+
+              Example : ------------------------------------------------------------------
+                    
+                library.add(fab, faCheckSquare, faCoffee)
+      
+---------------------------------------------*/
+
+import React from 'react';
+import { Link } from 'react-router-dom';
+import {FontAwesomeIcon}  from "@fortawesome/react-fontawesome";
+
+/****** Icons *****/
+import {faHome,faPlay,faImages,faVideo}  from "@fortawesome/free-solid-svg-icons";
+
+/****** Library for All types of icons *****/
+import { library } from '@fortawesome/fontawesome-svg-core';
+library.add(faHome,faPlay,faImages,faVideo);
+/****** CSS *****/
+import  './sidebarlayout.css';
+
+
+ const SideBarLayout = (props) => {
+
+    const linkItems = [
+      {
+          type : 'option',
+          icon : 'home',
+          text : 'Home',
+          link : '/'
+      },
+      {
+        type : 'option',
+        icon : 'video',
+        text : 'News',
+        link : '/fevorites'
+     },
+      {
+        type : 'option',
+        icon : 'play',
+        text : 'Videos',
+        link : '/videos'
+      },
+       {
+        type : 'option',
+        icon : 'images',
+        text : 'Home',
+        link : '/'
+      }
+
+    ]
+
+
+    const ShowItems = () => {
+
+      return linkItems.map((linkItem,i) => {
+          return <div key={i}  className={linkItem.type}>
+                    <Link
+                      to={linkItem.link}
+                    >
+                        <FontAwesomeIcon icon={ linkItem.icon } />
+                        {linkItem.text} 
+                    </Link>
+                </div>
+          
+      })
+
+    }
+
+  return (
+
+    /*----------- SideList --------------*/
+
+    <div
+      className = "sidenavbar"
+      role="presentation"
+      onClick={props.onClose}
+      onKeyDown={props.onClose}
+    >
+      
+      <div className="card shadow">
+                <div className="profileImageInSideNavBar mx-auto rounded-circle d-block shadow-lg"/>
+                <br/>
+                {ShowItems()}
+      </div>
+
+    </div>
+  
+
+  );
+}
+
+export default SideBarLayout;
+
+
+
+
+
+**********************************************************
+
+
+
+9. Footer 
+
+
+
+
+
+
+
+================================================================
+
+content : 
+
+1. Top vartical scroll bar for all products 
+> electronics,furniture,groceries,mobiles,fashion 
+
+> Table for main-categories  : (fashion,electronics,furniture) or if perticuler products like cycles :(hero,modern,children)
+
+[
+  main-categories  : [
+    {
+      name : 'category1',
+      image : 'img1',
+      to : '/subcategories',
+      css : 'style1.css'
+    },
+      {
+      name : 'category2',
+      image : 'img2',
+      to : '/subcategories',
+      css : 'style2.css'
+    },{
+      name : 'category3',
+      image : 'img3',
+      to : '/subcategories',
+      css : 'style3.css'
+    }, {
+      name : 'category4',
+      image : 'img4',
+      to : '/subcategories',
+      css : 'style4.css'
+    },{
+      name : 'category5',
+      image : 'img5',
+      to : '/subcategories',
+      css : 'style5.css'
+    }
+  ] 
+]
+
+2. Slider : 
+
+Slider : dynamic Slider
+
+[
+  Slider : [
+    {
+      slideImg : "img1",
+      caption: "caption1",
+      to : "/products"      
+    }, {
+      slideImg : "img2",
+      caption: "caption2",
+      to : "/products"      
+    }, {
+      slideImg : "img3",
+      caption: "caption3",
+      to : "/products"      
+    }
+  ]
+]
+
+3. deal of the day products :
+
+[
+  products which action : deal of the day (1)
+]
+
+4. category1 : 4 subcategories and link to category1 products
+
+5. category2 : 4 subcategories and link to category2 products
+
+....... categories 
+
+===================================================
+>>>> Subcategories.js
+
+
+props :  {
+      name : 'category1',
+      image : 'img1',
+      to : '/subcategories',
+      css : 'category1.css'
+    }
+
+it shows all Subcategories which are belongs to category1 
+
+
+-------------------------------Admin side 
+
+1. crud for category :   {
+      name : 'category1',
+      image : 'img1',
+      to : '/subcategories',
+      css : 'category1.css'
+    }
+
+2. crud subcategories : 
+  > select category : category1
+  > add subcategory : subcategory1
+  > image for subcategory1
+  > link : '/products'
+
+  3. crud for products :
+  > select category
+  > select subcategory
+  > crud for product : product 1
+  > image for product : product1_image
+
+
+
+----------------------------------------------------
+
+>[
+  { 
+    category : 'category1',
+    Subcategories  : [
+    {
+      name : 'subcategory1',
+      image : 'img1',
+      to : '/products',
+      css : 'style1.css'
+    },
+      {
+      name : 'subcategory2',
+      image : 'img2',
+      to : '/products',
+      css : 'style2.css'
+    },{
+      name : 'subcategory3',
+      image : 'img3',
+      to : '/products',
+      css : 'style3.css'
+    }, {
+      name : 'subcategory4',
+      image : 'img4',
+      to : '/products',
+      css : 'style4.css'
+    },{
+      name : 'subcategory5',
+      image : 'img5',
+      to : '/products',
+      css : 'style5.css'
+    }
+    ] 
+  }
+]
+
+
+> when user clicks on any subcategory then it goes to products component
+
+
+===================================================================
+
+Products.js
+
+props : category1,subcategory1 > show products which are from  : category1 subcategory1 
+
+[
+{
+  category : category1,
+  subcategory : subcategory1,
+  products : [
+    {
+      product : product1,
+      image : product1_image,
+      product_price : product1_price,
+      product_offer : 'deal of the day'
+      link : '/product_details'
+    }, {
+      product : product2,
+      image : product2_image,
+      product_price : product2_price,
+      product_offer : 'no'
+      link : '/product_details'
+    }, {
+      product : product3,
+      image : product3_image,
+      product_price : product3_price,
+      product_offer : 'no'
+      link : '/product_details'
+    }, {
+      product : product4,
+      image : product1_image,
+      product_price : product4_price,
+      product_offer : 'deal of the day'
+      link : '/product_details'
+    }
+  ]
+}
+
+]
+
+=============================================
+
+product_details.js
+
+show all details related to product 
+
+[
+  category : category1,
+  subcategory : subcategory1,
+  product1 : 
+    {
+      product : product1,
+      image : product1_image,
+      product_price : product1_price,
+      product_offer : 'deal of the day'
+      link : '/cart'
+    }
+  
+]
+
+=======================================================
+
+cart.js
+
+[
+  category : category1,
+  subcategory : subcategory1,
+  product : 
+    {
+      product : product1,
+      image : product1_image,
+      product_price : product1_price,
+      product_offer : 'deal of the day'
+      link : '/payment'
+    }
+  
+]
+
+
+////set all front view 
+
+
+config.js : file which export 
+
+password , url , year  and etc.., to other components
+
+
+> Reuseable components
+
+
+> JSON: JSON Server : https://github.com/typicode/json-server
+    > npm install -g json-server 
+    > json-server --watch db.json --port 3001
+    > now we can access our data in browser 
+
+> Widgets : which containg all Reuseable components
+
+    >   like slider 
+
+
+> dynamic Slider 
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+Dynamic Slider : npm install react-bootstrap bootstrap
+
+Best way to add slider 
+
+React Bootstrap  : https://react-bootstrap.github.io/getting-started/introduction/4
+
+1. home.js
+/**
+ * Home : 
+ * 
+ */
+
+
+import React from 'react';
+import Slider from '../Widgets/Slider/slider';
+
+const Home = () => {
+    return (
+        <div>  
+          <Slider
+            type = "template1"
+            start = {0}
+            end = {5}
+          />
+        </div>
+    )
+}
+
+export default Home;
+
+
+> Example 2 : Slider.js
+
+/**
+ * Slider.js : 
+ * 
+ */
+
+
+import React,{ Component } from 'react';
+import axios from 'axios';
+import SliderTemplate from './slider_template';
+
+
+class Slider extends Component{
+/**
+ * for data we need some request to database for that we need to install axios 
+ * > npm install axios --save
+ */
+
+ state = {
+     news : []
+ }
+
+ componentWillMount(props){
+    axios.get(`http://localhost:3001/articles?_start=${this.props.start}&_end=${this.props.end}`)
+    .then ( response => {
+       // console.log(response.data);
+       this.setState({
+           news : response.data
+       })
+    })
+ }
+
+    render() {
+        console.log(this.state.news);
+        return (
+            <div>
+                <SliderTemplate data = { this.state.news } type = "template1"/> 
+            </div>
+        )
+    }    
+
+}
+
+export default Slider;
+
+3.
+/**
+ * Slider Template : 
+ * install react-bootstrap bootstrap :  npm install react-bootstrap bootstrap
+ * 
+ */
+
+
+import React , {useState} from 'react';
+import {Carousel} from 'react-bootstrap';
+
+//css
+import './slider.css'
+
+const SliderTemplate = (props) => {
+   
+    const [index, setIndex] = useState(0);
+    const [direction, setDirection] = useState(null);
+      
+    const handleSelect = (selectedIndex, e) => {
+        setIndex(selectedIndex);
+        setDirection(e.direction);
+    };
+
+
+    let template = null;
+
+    switch (props.type) {
+        case ('template1') :
+            template = props.data.map((item,i) => {
+                return (
+                    <Carousel.Item key={i}>
+                        <div
+                            className="template1_image"
+                            style ={{
+                                background : `url(../images/articles/${item.image})`
+                            }}
+                        ></div>
+                        <Carousel.Caption>
+                            <h3>{item.id}</h3>
+                            <p>{item.title}</p>
+                        </Carousel.Caption>
+                    </Carousel.Item>
+                )
+            })
+            break;
+        default :
+        template = null;
+    }
+    
+    
+    return (
+      <div className="slider"> 
+            <Carousel activeIndex={index} direction={direction} onSelect={handleSelect}>
+               {template}
+            </Carousel>
+      </div>
+    )
+}
+
+export default SliderTemplate;
+
+
+///slider.css
+
+.template1_image{
+    position: relative;
+    width: 100%;
+    height: 450px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+}
+
+/*-------------- Responsive ---------------*/
+@media only screen and (max-width: 767px){
+  
+    .template1_image{
+        height: 250px;
+    }  
+    
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+Post : 
+
+image , video or document 
+
+Post_Item : 
+
+=================================load more button
+
+import React from 'react';
+import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
+import Slide from '@material-ui/core/Slide';
+
+function TransitionLeft(props) {
+  return <Slide {...props} direction="left" />;
+}
+
+function TransitionUp(props) {
+  return <Slide {...props} direction="up" />;
+}
+
+function TransitionRight(props) {
+  return <Slide {...props} direction="right" />;
+}
+
+function TransitionDown(props) {
+  return <Slide {...props} direction="down" />;
+}
+
+class DirectionSnackbar extends React.Component {
+  state = {
+    open: false,
+  };
+
+  handleClick = Transition => () => {
+    this.setState({ open: true, Transition });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  render() {
+    return (
+      <div>
+        <Button onClick={this.handleClick(TransitionLeft)}>Right</Button>
+        <Button onClick={this.handleClick(TransitionUp)}>Up</Button>
+        <Button onClick={this.handleClick(TransitionRight)}>Left</Button>
+        <Button onClick={this.handleClick(TransitionDown)}>Down</Button>
+        <Snackbar
+          open={this.state.open}
+          onClose={this.handleClose}
+          TransitionComponent={this.state.Transition}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">I love snacks</span>}
+        />
+      </div>
+    );
+  }
+}
+
+export default DirectionSnackbar;
+
+
+
+=================================================================
+post : 
+
+https://material-ui.com/components/lists#simple-list
+
+posted by image : https://material-ui.com/components/Avatars
+
+devider : https://material-ui.com/components/dividers
+
+
+
+================================================================
+
+notification icon : https://material-ui.com/components/badges
+
+Transitions : https://material-ui.com/components/transitions
+
+======================================================================
+
+material icons :
+
+>  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+>  import Icon from '@material-ui/core/Icon';
+
+    > <Icon>star</Icon>
+
+>   https://material.io/tools/icons/
+
+
+=====================================================================
+data tables : crud 
+
+> https://material-ui.com/components/tables
+
+> https://devexpress.github.io/devextreme-reactive/react/grid/
+
+> https://github.com/gregnb/mui-datatables
+
+
+=============================================================
+
+
+video component : 
+
+button https://material-ui.com/components/speed-dial
+
+
+
+==============Load more
+
+
+*******************infinite scroller 
+
+> npm install react-infinite-scroller --save
+
+> npm install react-infinite-scroll-component  --save
+
+
+
+
+==============================================
+
+Forms  : 
+
+1. Controlled Forms 
+
+2. Uncontrolled Forms 
+
+1. Controlled Form : 
+
+
+/**
+ * DynamicForm.js : it return jsx as per props : login,signup,forgotePassword etc..,
+ * 
+ */
+import React, { Component } from 'react';
+import { Card } from '@material-ui/core';
+import CardHeader from '@material-ui/core/CardHeader';
+
+class DynamicForm extends Component {
+
+handleSubmitClick = (event) => {
+    event.preventDefault();
+   
+    const value = {
+      name  : this.name.value,
+      lastname : this.lastname.value
+    }
+
+    console.log(value)
+
+}
+
+render(){
+   
+    return(        
+    <div>
+        <Card>
+           <form onSubmit={this.handleSubmitClick}>
+            <div className="form_element">
+                <label>Enter Name</label>
+                <input 
+                 type = "text"
+                 ref = {input => this.name = input}
+                />
+            </div>
+            <div className="form_element">
+                <label>Enter LastName</label>
+                <input 
+                 type = "text"
+                 ref = { input => this.lastname = input}
+                />
+            </div>
+            <button onClick={handleSubmitClick}>Login</button>
+           </form>
+
+        </Card>
+    </div>   
+    )
+}
+  
+}
+
+
+export default DynamicForm;
+
+2. Uncontrolled Form : 
+
+
+1. header
+    1.1 sidebar 
+    1.2 logo 
+    1.3 notification
+2. content : as per footer route 
+3. footer
+    3.1 bottom navigation bar 
+        3.1.1   home : videos , images ,documents 
+        3.1.2   video : category wise videos
+        3.1.3   event
+        3.1.4   dairy 
+        3.1.5   feedback 
+
+
+
+
+=========================================
+1. Create React Project 
+> cmd: create-react-app application-name 
+
+2. Delete all files and start from screatch : 
+
+3. Create Folder Structure 
+
+4. Put Images in public Folder 
+
+5. Install needed Things 
+> Router                :   react-router-dom 
+> Font-Awesome          :   https://cdnjs.com/libraries/font-awesome            :- react-fontawesome   , https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/fontawesome.min.css
+> Side-Nav Dependency   :   https://github.com/gauravchl/react-simple-sidenav   :- react-simple-sidenav
+> Slider                :   https://github.com/akiran/react-slick               :- react-slick and add into index.html :
+                                                                                    <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
+                                                                                    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
+             
+> Material design bootstrap  :  https://mdbootstrap.com/  :-  npm install mdbreact
+                             :  https://mdbootstrap.com/docs/react/
+
+
+> Material UI React : https://material-ui.com
+                      npm install @material-ui/core
+                      npm install @material-ui/icons    
+                    > https://www.materialui.co/icons?s=images
+
+=============================================================================
+
+> FontAwesome : npm install @fortawesome/fontawesome-svg-core --save
+                npm install @fortawesome/react-fontawesome --save
+                npm install @fortawesome/free-solid-svg-icons --save (regular,brands,..)
+
+              > import { library } from '@fortawesome/fontawesome-svg-core'
+              > import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+              > import { fab } from '@fortawesome/free-brands-svg-icons'
+              > import { faCheckSquare, faCoffee } from '@fortawesome/free-solid-svg-icons'
+
+              Example : ------------------------------------------------------------------
+                    
+                library.add(fab, faCheckSquare, faCoffee)
+              
+              ----------------------------------------------------------------------------
+
+              https://www.npmjs.com/package/@fortawesome/react-fontawesome
+
+              Font-Awesome icons :- 
+              https://fontawesome.com/icons?d=gallery 
+              ======================================================
+               
+              
+
+
+===============================================================================
+                
+> // if you just want the free things
+npm i -S @fortawesome/fontawesome-svg-core @fortawesome/react-fontawesome @fortawesome/free-regular-svg-icons @fortawesome/free-solid-svg-icons @fortawesome/free-light-svg-icons @fortawesome/free-brands-svg-icons
+
+
+Example : npm install  react-router-dom react-fontawesome react-simple-sidenav react-slick --save
+
+/*****************************************************************************
+* 
+* Loader :     <Loader/> in Index.js
+* 
+******************************************************************************/
+
+*6. Index.js ---------------------------------
+
+/**
+ * Index.js : Main Component 
+ * BrowserRouter : Routes 
+ * Header and Footer for all routes 
+ */
+import React from 'react';
+import ReactDom from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
+ /****************** Components ******************/
+import Routes from './routes';
+import Loader from './components/Loader/loader';
+import Header from './components/Header/header';
+import Footer from './components/Footer/footer';
+/********************* Css ************************/
+import './css/index.css';
+
+const App = () => {
+
+//loader time out function 
+const loaderTimeOut = () => { 
+    setTimeout(() => {
+        let mainContainer = document.getElementsByClassName("mainContainer")[0];
+        mainContainer.style.display = "block";
+        let loader = document.getElementsByClassName("loader-bg")[0];
+        loader.style.display = "none";
+    },
+    1000);
+}
+
+loaderTimeOut();
+
+    return(
+        <BrowserRouter>
+            <Loader/>
+            <div className = "mainContainer">
+                <Header/>   
+                    <Routes/>
+                <Footer />
+            </div>
+        </BrowserRouter>
+    )
+}
+
+ReactDom.render(<App/>,document.getElementById('root'));
+
+----------------------------------*/
+
+* Loader.js ------------------------------
+import React from 'react';
+/**   Css   **/
+import './loader.css';
+
+const Loader = () =>{
+
+//********* page loader js
+
+return(
+   <div className="loader-bg">
+        <div className="loader">
+        <label id="loader-label-name">E-Com</label>
+                <span></span>
+                <span></span>
+                <span></span>
+        </div>
+    </div>
+)
+}
+
+
+export default Loader;
+
+-----------------------------------------*/
+
+*Style.css 
+
+/*-------------- 2. Preloader css starts ---------------*/
+.loader-bg {
+    position: fixed;
+    z-index: 9999999;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, silver, teal);
+}
+
+.loader {
+    width: 16em;
+    height: 8em;
+    position: absolute;
+    top: calc(50vh - 95px);
+    left: calc(50vw - 130px);
+    overflow: hidden;
+}
+
+.loader::before,
+.loader::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+}
+
+.loader::before {
+    width: inherit;
+    height: 0.2em;
+    background-color: hsla(0, 0%, 85%);
+}
+
+.loader::after {
+    box-sizing: border-box;
+    width: 50%;
+    height: inherit;
+    border: 0.2em solid hsla(0, 0%, 85%);
+    border-radius: 50%;
+    left: 25%;
+}
+
+.loader span {
+    position: absolute;
+    width: 5%;
+    height: 10%;
+    background-color: white;
+    border-radius: 50%;
+    bottom: 0.2em;
+    left: -5%;
+    animation: 2s linear infinite;
+    transform-origin: 50% -3em;
+    animation-name: run, rotating;
+}
+
+.loader span:nth-child(2) {animation-delay: 0.075s;}
+.loader span:nth-child(3) {animation-delay: 0.15s;}
+
+@keyframes run {
+    0% {left: -5%;}
+    10%, 60% {left: calc((100% - 5%) / 2);}
+    70%, 100% {left: 100%;}
+}
+
+@keyframes rotating {
+    0%, 10% {transform: rotate(0deg);}
+    60%, 100% {transform: rotate(-1turn);}
+}
+
+#loader-label-name{
+    position: relative;
+    color: white;
+    margin-top: 50px;
+    margin-left: 110px;
+}
+
+
+
+
+/*-------------- Preloader css ends ---------------*/
+
+*Responsive.css
+
+
+@media only screen and (max-width: 767px){
+/*--------  --------*/
+
+
+}
+
+>     this.loaderTimeOut();
+
+  //loader time out function 
+    loaderTimeOut = () => { 
+        setTimeout(() => {
+        let mainContainer = document.getElementsByClassName("mainContainer")[0];
+        mainContainer.style.display = "block";
+        let loader = document.getElementsByClassName("loader-bg")[0];
+            loader.style.display = "none";
+        },1000);
+    }
+
+
+==============================================================================
+
+
+7. Create route.js file saperatly for routers
+
+/************************************************************
+ * Routes : returns routes of our application for router
+ * 
+ */
+
+
+ import React from 'react';
+ import { Route , Switch } from 'react-router-dom';
+ /****************** Components ******************/
+ import Home from './components/Home/home';
+
+
+ const Routes = () => {
+     return (
+         <Switch>
+             <Route path="/" exact component={Home}/>
+         </Switch>
+     )
+ }
+
+ export default Routes;
+
+*******************************************************************/
+
+8. Header
+
+8.1 : side bar 
+
+
+> Material UI React : https://material-ui.com
+                      npm install @material-ui/core
+                      npm install @material-ui/icons    
+                    > https://www.materialui.co/icons?s=images   
+
+
+                    
+
+
+*************************************************************
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
+
+const useStyles = makeStyles({
+  list: {
+    width: 250,
+  },
+  fullList: {
+    width: 'auto',
+  },
+});
+
+export default function Header() {
+  const classes = useStyles();
+  const [state, setState] = React.useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
+  });
+
+  const toggleDrawer = (side, open) => event => {
+    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setState({ ...state, [side]: open });
+  };
+
+  const sideList = side => (
+    <div
+      className={classes.list}
+      role="presentation"
+      onClick={toggleDrawer(side, false)}
+      onKeyDown={toggleDrawer(side, false)}
+    >
+      <List>
+        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+    </div>
+  );
+
+  const fullList = side => (
+    <div
+      className={classes.fullList}
+      role="presentation"
+      onClick={toggleDrawer(side, false)}
+      onKeyDown={toggleDrawer(side, false)}
+    >
+      <List>
+        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+    </div>
+  );
+
+  return (
+    <div>
+      <Button onClick={toggleDrawer('left', true)}>Open Left</Button>
+      <Button onClick={toggleDrawer('right', true)}>Open Right</Button>
+      <Button onClick={toggleDrawer('top', true)}>Open Top</Button>
+      <Button onClick={toggleDrawer('bottom', true)}>Open Bottom</Button>
+      <SwipeableDrawer
+        open={state.left}
+        onClose={toggleDrawer('left', false)}
+        onOpen={toggleDrawer('left', true)}
+      >
+        {sideList('left')}
+      </SwipeableDrawer>
+      <SwipeableDrawer
+        anchor="top"
+        open={state.top}
+        onClose={toggleDrawer('top', false)}
+        onOpen={toggleDrawer('top', true)}
+      >
+        {fullList('top')}
+      </SwipeableDrawer>
+      <SwipeableDrawer
+        anchor="bottom"
+        open={state.bottom}
+        onClose={toggleDrawer('bottom', false)}
+        onOpen={toggleDrawer('bottom', true)}
+      >
+        {fullList('bottom')}
+      </SwipeableDrawer>
+      <SwipeableDrawer
+        anchor="right"
+        open={state.right}
+        onClose={toggleDrawer('right', false)}
+        onOpen={toggleDrawer('right', true)}
+      >
+        {sideList('right')}
+      </SwipeableDrawer>
+    </div>
+  );
+}
+
+============================== Example ==========================
+
+
+
+
+import React , { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+/*======== Components ==========*/
+
+import SideBar from '../SideNavBar/sidenavbar';
+
+ const Header = () => {
+/*----------- CSS --------------*/
+  const classes = useStyles();
+
+/*----------- Swipable Drawer Start --------------*/
+
+  const [state, setState] = useState({
+    isOpen: false
+  });
+
+  const toggleDrawer = (open) => event => {
+    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setState({
+       isOpen : open
+    });
+  
+  };
+
+  const openSidebar = () => {
+
+   return toggleDrawer(true);
+
+  }
+  
+/*----------- Swipable Drawer End --------------*/
+  return (
+
+    <div className={classes.header}>
+
+        {/* Sidebar Button */}
+        <IconButton onClick={openSidebar()}>
+          <MenuIcon className={classes.iconColor} />
+        </IconButton>
+        {/* SwipeableDrawer */}      
+        <SideBar 
+          open={state.isOpen}
+          onClose={toggleDrawer(false)}
+          onOpen={toggleDrawer(true)}
+        />
+
+    </div>
+  );
+}
+
+const useStyles = makeStyles({
+  list: {
+    width: 250,
+  },
+});
+
+
+export default Header;
+
+------------------ Sidebar start -----------------
+SideBar : 
+
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+
+/*======== Components ==========*/
+import SideBarLayout from '../SideNavBar/SidebarLayout/sidebarlayout';
+
+ const SideBar = (props) => {
+/*----------- CSS --------------*/
+  const classes = useStyles();
+
+/*----------- Swipable Drawer Start --------------*/
+
+/*----------- Swipable Drawer End --------------*/
+  return (
+
+    <span className={classes.sidebar}>
+        {/* SwipeableDrawer */}
+        <SwipeableDrawer
+        open={props.open}
+        onClose={props.onClose}
+        onOpen={props.onOpen}
+        >
+        {/* SideList */}          
+          <SideBarLayout {...props} />
+        </SwipeableDrawer>
+    </span>
+  );
+}
+
+const useStyles = makeStyles({
+ 
+ 
+});
+
+
+export default SideBar; 
+
+
+---------------------------- SideBar SideBarLayout
+
+/*---------------------Dynamic link creation 
+*Font Awesome : 
+*FontAwesome :  npm install @fortawesome/fontawesome-svg-core --save
+                npm install @fortawesome/react-fontawesome --save
+                npm install @fortawesome/free-solid-svg-icons --save (regular,brands,..)
+
+              > import { library } from '@fortawesome/fontawesome-svg-core'
+              > import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+              > import { fab } from '@fortawesome/free-brands-svg-icons'
+              > import { faCheckSquare, faCoffee } from '@fortawesome/free-solid-svg-icons'
+
+              Example : ------------------------------------------------------------------
+                    
+                library.add(fab, faCheckSquare, faCoffee)
+      
+---------------------------------------------*/
+
+import React from 'react';
+import { Link } from 'react-router-dom';
+import {FontAwesomeIcon}  from "@fortawesome/react-fontawesome";
+
+/****** Icons *****/
+import {faHome,faPlay,faImages,faVideo}  from "@fortawesome/free-solid-svg-icons";
+
+/****** Library for All types of icons *****/
+import { library } from '@fortawesome/fontawesome-svg-core';
+library.add(faHome,faPlay,faImages,faVideo);
+/****** CSS *****/
+import  './sidebarlayout.css';
+
+
+ const SideBarLayout = (props) => {
+
+    const linkItems = [
+      {
+          type : 'option',
+          icon : 'home',
+          text : 'Home',
+          link : '/'
+      },
+      {
+        type : 'option',
+        icon : 'video',
+        text : 'News',
+        link : '/fevorites'
+     },
+      {
+        type : 'option',
+        icon : 'play',
+        text : 'Videos',
+        link : '/videos'
+      },
+       {
+        type : 'option',
+        icon : 'images',
+        text : 'Home',
+        link : '/'
+      }
+
+    ]
+
+
+    const ShowItems = () => {
+
+      return linkItems.map((linkItem,i) => {
+          return <div key={i}  className={linkItem.type}>
+                    <Link
+                      to={linkItem.link}
+                    >
+                        <FontAwesomeIcon icon={ linkItem.icon } />
+                        {linkItem.text} 
+                    </Link>
+                </div>
+          
+      })
+
+    }
+
+  return (
+
+    /*----------- SideList --------------*/
+
+    <div
+      className = "sidenavbar"
+      role="presentation"
+      onClick={props.onClose}
+      onKeyDown={props.onClose}
+    >
+      
+      <div className="card shadow">
+                <div className="profileImageInSideNavBar mx-auto rounded-circle d-block shadow-lg"/>
+                <br/>
+                {ShowItems()}
+      </div>
+
+    </div>
+  
+
+  );
+}
+
+export default SideBarLayout;
+
+
+
+
+
+**********************************************************
+
+
+
+9. Footer 
+
+
+
+
+
+
+
+================================================================
+
+content : 
+
+1. Top vartical scroll bar for all products 
+> electronics,furniture,groceries,mobiles,fashion 
+
+> Table for main-categories  : (fashion,electronics,furniture) or if perticuler products like cycles :(hero,modern,children)
+
+[
+  main-categories  : [
+    {
+      name : 'category1',
+      image : 'img1',
+      to : '/subcategories',
+      css : 'style1.css'
+    },
+      {
+      name : 'category2',
+      image : 'img2',
+      to : '/subcategories',
+      css : 'style2.css'
+    },{
+      name : 'category3',
+      image : 'img3',
+      to : '/subcategories',
+      css : 'style3.css'
+    }, {
+      name : 'category4',
+      image : 'img4',
+      to : '/subcategories',
+      css : 'style4.css'
+    },{
+      name : 'category5',
+      image : 'img5',
+      to : '/subcategories',
+      css : 'style5.css'
+    }
+  ] 
+]
+
+2. Slider : 
+
+Slider : dynamic Slider
+
+[
+  Slider : [
+    {
+      slideImg : "img1",
+      caption: "caption1",
+      to : "/products"      
+    }, {
+      slideImg : "img2",
+      caption: "caption2",
+      to : "/products"      
+    }, {
+      slideImg : "img3",
+      caption: "caption3",
+      to : "/products"      
+    }
+  ]
+]
+
+3. deal of the day products :
+
+[
+  products which action : deal of the day (1)
+]
+
+4. category1 : 4 subcategories and link to category1 products
+
+5. category2 : 4 subcategories and link to category2 products
+
+....... categories 
+
+===================================================
+>>>> Subcategories.js
+
+
+props :  {
+      name : 'category1',
+      image : 'img1',
+      to : '/subcategories',
+      css : 'category1.css'
+    }
+
+it shows all Subcategories which are belongs to category1 
+
+
+-------------------------------Admin side 
+
+1. crud for category :   {
+      name : 'category1',
+      image : 'img1',
+      to : '/subcategories',
+      css : 'category1.css'
+    }
+
+2. crud subcategories : 
+  > select category : category1
+  > add subcategory : subcategory1
+  > image for subcategory1
+  > link : '/products'
+
+  3. crud for products :
+  > select category
+  > select subcategory
+  > crud for product : product 1
+  > image for product : product1_image
+
+
+
+----------------------------------------------------
+
+>[
+  { 
+    category : 'category1',
+    Subcategories  : [
+    {
+      name : 'subcategory1',
+      image : 'img1',
+      to : '/products',
+      css : 'style1.css'
+    },
+      {
+      name : 'subcategory2',
+      image : 'img2',
+      to : '/products',
+      css : 'style2.css'
+    },{
+      name : 'subcategory3',
+      image : 'img3',
+      to : '/products',
+      css : 'style3.css'
+    }, {
+      name : 'subcategory4',
+      image : 'img4',
+      to : '/products',
+      css : 'style4.css'
+    },{
+      name : 'subcategory5',
+      image : 'img5',
+      to : '/products',
+      css : 'style5.css'
+    }
+    ] 
+  }
+]
+
+
+> when user clicks on any subcategory then it goes to products component
+
+
+===================================================================
+
+Products.js
+
+props : category1,subcategory1 > show products which are from  : category1 subcategory1 
+
+[
+{
+  category : category1,
+  subcategory : subcategory1,
+  products : [
+    {
+      product : product1,
+      image : product1_image,
+      product_price : product1_price,
+      product_offer : 'deal of the day'
+      link : '/product_details'
+    }, {
+      product : product2,
+      image : product2_image,
+      product_price : product2_price,
+      product_offer : 'no'
+      link : '/product_details'
+    }, {
+      product : product3,
+      image : product3_image,
+      product_price : product3_price,
+      product_offer : 'no'
+      link : '/product_details'
+    }, {
+      product : product4,
+      image : product1_image,
+      product_price : product4_price,
+      product_offer : 'deal of the day'
+      link : '/product_details'
+    }
+  ]
+}
+
+]
+
+=============================================
+
+product_details.js
+
+show all details related to product 
+
+[
+  category : category1,
+  subcategory : subcategory1,
+  product1 : 
+    {
+      product : product1,
+      image : product1_image,
+      product_price : product1_price,
+      product_offer : 'deal of the day'
+      link : '/cart'
+    }
+  
+]
+
+=======================================================
+
+cart.js
+
+[
+  category : category1,
+  subcategory : subcategory1,
+  product : 
+    {
+      product : product1,
+      image : product1_image,
+      product_price : product1_price,
+      product_offer : 'deal of the day'
+      link : '/payment'
+    }
+  
+]
+
+
+////set all front view 
+
+
+config.js : file which export 
+
+password , url , year  and etc.., to other components
+
+
+> Reuseable components
+
+
+> JSON: JSON Server : https://github.com/typicode/json-server
+    > npm install -g json-server 
+    > json-server --watch db.json --port 3001
+    > now we can access our data in browser 
+
+> Widgets : which containg all Reuseable components
+
+    >   like slider 
+
+
+> dynamic Slider 
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+Dynamic Slider : npm install react-bootstrap bootstrap
+
+Best way to add slider 
+
+React Bootstrap  : https://react-bootstrap.github.io/getting-started/introduction/4
+
+1. home.js
+/**
+ * Home : 
+ * 
+ */
+
+
+import React from 'react';
+import Slider from '../Widgets/Slider/slider';
+
+const Home = () => {
+    return (
+        <div>  
+          <Slider
+            type = "template1"
+            start = {0}
+            end = {5}
+          />
+        </div>
+    )
+}
+
+export default Home;
+
+
+> Example 2 : Slider.js
+
+/**
+ * Slider.js : 
+ * 
+ */
+
+
+import React,{ Component } from 'react';
+import axios from 'axios';
+import SliderTemplate from './slider_template';
+
+
+class Slider extends Component{
+/**
+ * for data we need some request to database for that we need to install axios 
+ * > npm install axios --save
+ */
+
+ state = {
+     news : []
+ }
+
+ componentWillMount(props){
+    axios.get(`http://localhost:3001/articles?_start=${this.props.start}&_end=${this.props.end}`)
+    .then ( response => {
+       // console.log(response.data);
+       this.setState({
+           news : response.data
+       })
+    })
+ }
+
+    render() {
+        console.log(this.state.news);
+        return (
+            <div>
+                <SliderTemplate data = { this.state.news } type = "template1"/> 
+            </div>
+        )
+    }    
+
+}
+
+export default Slider;
+
+3.
+/**
+ * Slider Template : 
+ * install react-bootstrap bootstrap :  npm install react-bootstrap bootstrap
+ * 
+ */
+
+
+import React , {useState} from 'react';
+import {Carousel} from 'react-bootstrap';
+
+//css
+import './slider.css'
+
+const SliderTemplate = (props) => {
+   
+    const [index, setIndex] = useState(0);
+    const [direction, setDirection] = useState(null);
+      
+    const handleSelect = (selectedIndex, e) => {
+        setIndex(selectedIndex);
+        setDirection(e.direction);
+    };
+
+
+    let template = null;
+
+    switch (props.type) {
+        case ('template1') :
+            template = props.data.map((item,i) => {
+                return (
+                    <Carousel.Item key={i}>
+                        <div
+                            className="template1_image"
+                            style ={{
+                                background : `url(../images/articles/${item.image})`
+                            }}
+                        ></div>
+                        <Carousel.Caption>
+                            <h3>{item.id}</h3>
+                            <p>{item.title}</p>
+                        </Carousel.Caption>
+                    </Carousel.Item>
+                )
+            })
+            break;
+        default :
+        template = null;
+    }
+    
+    
+    return (
+      <div className="slider"> 
+            <Carousel activeIndex={index} direction={direction} onSelect={handleSelect}>
+               {template}
+            </Carousel>
+      </div>
+    )
+}
+
+export default SliderTemplate;
+
+
+///slider.css
+
+.template1_image{
+    position: relative;
+    width: 100%;
+    height: 450px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+}
+
+/*-------------- Responsive ---------------*/
+@media only screen and (max-width: 767px){
+  
+    .template1_image{
+        height: 250px;
+    }  
+    
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+Post : 
+
+image , video or document 
+
+Post_Item : 
+
+=================================load more button
+
+import React from 'react';
+import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
+import Slide from '@material-ui/core/Slide';
+
+function TransitionLeft(props) {
+  return <Slide {...props} direction="left" />;
+}
+
+function TransitionUp(props) {
+  return <Slide {...props} direction="up" />;
+}
+
+function TransitionRight(props) {
+  return <Slide {...props} direction="right" />;
+}
+
+function TransitionDown(props) {
+  return <Slide {...props} direction="down" />;
+}
+
+class DirectionSnackbar extends React.Component {
+  state = {
+    open: false,
+  };
+
+  handleClick = Transition => () => {
+    this.setState({ open: true, Transition });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  render() {
+    return (
+      <div>
+        <Button onClick={this.handleClick(TransitionLeft)}>Right</Button>
+        <Button onClick={this.handleClick(TransitionUp)}>Up</Button>
+        <Button onClick={this.handleClick(TransitionRight)}>Left</Button>
+        <Button onClick={this.handleClick(TransitionDown)}>Down</Button>
+        <Snackbar
+          open={this.state.open}
+          onClose={this.handleClose}
+          TransitionComponent={this.state.Transition}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">I love snacks</span>}
+        />
+      </div>
+    );
+  }
+}
+
+export default DirectionSnackbar;
+
+
+
+=================================================================
+post : 
+
+https://material-ui.com/components/lists#simple-list
+
+posted by image : https://material-ui.com/components/Avatars
+
+devider : https://material-ui.com/components/dividers
+
+
+
+================================================================
+
+notification icon : https://material-ui.com/components/badges
+
+Transitions : https://material-ui.com/components/transitions
+
+======================================================================
+
+material icons :
+
+>  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+>  import Icon from '@material-ui/core/Icon';
+
+    > <Icon>star</Icon>
+
+>   https://material.io/tools/icons/
+
+
+=====================================================================
+data tables : crud 
+
+> https://material-ui.com/components/tables
+
+> https://devexpress.github.io/devextreme-reactive/react/grid/
+
+> https://github.com/gregnb/mui-datatables
+
+
+=============================================================
+
+
+video component : 
+
+button https://material-ui.com/components/speed-dial
+
+
+
+==============Load more
+
+
+*******************infinite scroller 
+
+> npm install react-infinite-scroller --save
+
+> npm install react-infinite-scroll-component  --save
+
+
+
+
+==============================================
+
+Forms  : 
+
+1. Controlled Forms 
+
+2. Uncontrolled Forms 
+
+1. Controlled Form : 
+
+
+/**
+ * DynamicForm.js : it return jsx as per props : login,signup,forgotePassword etc..,
+ * 
+ */
+import React, { Component } from 'react';
+import { Card } from '@material-ui/core';
+import CardHeader from '@material-ui/core/CardHeader';
+
+class DynamicForm extends Component {
+
+handleSubmitClick = (event) => {
+    event.preventDefault();
+   
+    const value = {
+      name  : this.name.value,
+      lastname : this.lastname.value
+    }
+
+    console.log(value)
+
+}
+
+render(){
+   
+    return(        
+    <div>
+        <Card>
+           <form onSubmit={this.handleSubmitClick}>
+            <div className="form_element">
+                <label>Enter Name</label>
+                <input 
+                 type = "text"
+                 ref = {input => this.name = input}
+                />
+            </div>
+            <div className="form_element">
+                <label>Enter LastName</label>
+                <input 
+                 type = "text"
+                 ref = { input => this.lastname = input}
+                />
+            </div>
+            <button onClick={handleSubmitClick}>Login</button>
+           </form>
+
+        </Card>
+    </div>   
+    )
+}
+  
+}
+
+
+export default DynamicForm;
+
+2. Uncontrolled Form : 
+
+
+1. header
+    1.1 sidebar 
+    1.2 logo 
+    1.3 notification
+2. content : as per footer route 
+3. footer
+    3.1 bottom navigation bar 
+        3.1.1   home : videos , images ,documents 
+        3.1.2   video : category wise videos
+        3.1.3   event
+        3.1.4   dairy 
+        3.1.5   feedback 
+
+
+
+
+=========================================
+1. Create React Project 
+> cmd: create-react-app application-name 
+
+2. Delete all files and start from screatch : 
+
+3. Create Folder Structure 
+
+4. Put Images in public Folder 
+
+5. Install needed Things 
+> Router                :   react-router-dom 
+> Font-Awesome          :   https://cdnjs.com/libraries/font-awesome            :- react-fontawesome   , https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/fontawesome.min.css
+> Side-Nav Dependency   :   https://github.com/gauravchl/react-simple-sidenav   :- react-simple-sidenav
+> Slider                :   https://github.com/akiran/react-slick               :- react-slick and add into index.html :
+                                                                                    <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
+                                                                                    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
+             
+> Material design bootstrap  :  https://mdbootstrap.com/  :-  npm install mdbreact
+                             :  https://mdbootstrap.com/docs/react/
+
+
+> Material UI React : https://material-ui.com
+                      npm install @material-ui/core
+                      npm install @material-ui/icons    
+                    > https://www.materialui.co/icons?s=images
+
+=============================================================================
+
+> FontAwesome : npm install @fortawesome/fontawesome-svg-core --save
+                npm install @fortawesome/react-fontawesome --save
+                npm install @fortawesome/free-solid-svg-icons --save (regular,brands,..)
+
+              > import { library } from '@fortawesome/fontawesome-svg-core'
+              > import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+              > import { fab } from '@fortawesome/free-brands-svg-icons'
+              > import { faCheckSquare, faCoffee } from '@fortawesome/free-solid-svg-icons'
+
+              Example : ------------------------------------------------------------------
+                    
+                library.add(fab, faCheckSquare, faCoffee)
+              
+              ----------------------------------------------------------------------------
+
+              https://www.npmjs.com/package/@fortawesome/react-fontawesome
+
+              Font-Awesome icons :- 
+              https://fontawesome.com/icons?d=gallery 
+              ======================================================
+               
+              
+
+
+===============================================================================
+                
+> // if you just want the free things
+npm i -S @fortawesome/fontawesome-svg-core @fortawesome/react-fontawesome @fortawesome/free-regular-svg-icons @fortawesome/free-solid-svg-icons @fortawesome/free-light-svg-icons @fortawesome/free-brands-svg-icons
+
+
+Example : npm install  react-router-dom react-fontawesome react-simple-sidenav react-slick --save
+
+/*****************************************************************************
+* 
+* Loader :     <Loader/> in Index.js
+* 
+******************************************************************************/
+
+*6. Index.js ---------------------------------
+
+/**
+ * Index.js : Main Component 
+ * BrowserRouter : Routes 
+ * Header and Footer for all routes 
+ */
+import React from 'react';
+import ReactDom from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
+ /****************** Components ******************/
+import Routes from './routes';
+import Loader from './components/Loader/loader';
+import Header from './components/Header/header';
+import Footer from './components/Footer/footer';
+/********************* Css ************************/
+import './css/index.css';
+
+const App = () => {
+
+//loader time out function 
+const loaderTimeOut = () => { 
+    setTimeout(() => {
+        let mainContainer = document.getElementsByClassName("mainContainer")[0];
+        mainContainer.style.display = "block";
+        let loader = document.getElementsByClassName("loader-bg")[0];
+        loader.style.display = "none";
+    },
+    1000);
+}
+
+loaderTimeOut();
+
+    return(
+        <BrowserRouter>
+            <Loader/>
+            <div className = "mainContainer">
+                <Header/>   
+                    <Routes/>
+                <Footer />
+            </div>
+        </BrowserRouter>
+    )
+}
+
+ReactDom.render(<App/>,document.getElementById('root'));
+
+----------------------------------*/
+
+* Loader.js ------------------------------
+import React from 'react';
+/**   Css   **/
+import './loader.css';
+
+const Loader = () =>{
+
+//********* page loader js
+
+return(
+   <div className="loader-bg">
+        <div className="loader">
+        <label id="loader-label-name">E-Com</label>
+                <span></span>
+                <span></span>
+                <span></span>
+        </div>
+    </div>
+)
+}
+
+
+export default Loader;
+
+-----------------------------------------*/
+
+*Style.css 
+
+/*-------------- 2. Preloader css starts ---------------*/
+.loader-bg {
+    position: fixed;
+    z-index: 9999999;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, silver, teal);
+}
+
+.loader {
+    width: 16em;
+    height: 8em;
+    position: absolute;
+    top: calc(50vh - 95px);
+    left: calc(50vw - 130px);
+    overflow: hidden;
+}
+
+.loader::before,
+.loader::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+}
+
+.loader::before {
+    width: inherit;
+    height: 0.2em;
+    background-color: hsla(0, 0%, 85%);
+}
+
+.loader::after {
+    box-sizing: border-box;
+    width: 50%;
+    height: inherit;
+    border: 0.2em solid hsla(0, 0%, 85%);
+    border-radius: 50%;
+    left: 25%;
+}
+
+.loader span {
+    position: absolute;
+    width: 5%;
+    height: 10%;
+    background-color: white;
+    border-radius: 50%;
+    bottom: 0.2em;
+    left: -5%;
+    animation: 2s linear infinite;
+    transform-origin: 50% -3em;
+    animation-name: run, rotating;
+}
+
+.loader span:nth-child(2) {animation-delay: 0.075s;}
+.loader span:nth-child(3) {animation-delay: 0.15s;}
+
+@keyframes run {
+    0% {left: -5%;}
+    10%, 60% {left: calc((100% - 5%) / 2);}
+    70%, 100% {left: 100%;}
+}
+
+@keyframes rotating {
+    0%, 10% {transform: rotate(0deg);}
+    60%, 100% {transform: rotate(-1turn);}
+}
+
+#loader-label-name{
+    position: relative;
+    color: white;
+    margin-top: 50px;
+    margin-left: 110px;
+}
+
+
+
+
+/*-------------- Preloader css ends ---------------*/
+
+*Responsive.css
+
+
+@media only screen and (max-width: 767px){
+/*--------  --------*/
+
+
+}
+
+>     this.loaderTimeOut();
+
+  //loader time out function 
+    loaderTimeOut = () => { 
+        setTimeout(() => {
+        let mainContainer = document.getElementsByClassName("mainContainer")[0];
+        mainContainer.style.display = "block";
+        let loader = document.getElementsByClassName("loader-bg")[0];
+            loader.style.display = "none";
+        },1000);
+    }
+
+
+==============================================================================
+
+
+7. Create route.js file saperatly for routers
+
+/************************************************************
+ * Routes : returns routes of our application for router
+ * 
+ */
+
+
+ import React from 'react';
+ import { Route , Switch } from 'react-router-dom';
+ /****************** Components ******************/
+ import Home from './components/Home/home';
+
+
+ const Routes = () => {
+     return (
+         <Switch>
+             <Route path="/" exact component={Home}/>
+         </Switch>
+     )
+ }
+
+ export default Routes;
+
+*******************************************************************/
+
+8. Header
+
+8.1 : side bar 
+
+
+> Material UI React : https://material-ui.com
+                      npm install @material-ui/core
+                      npm install @material-ui/icons    
+                    > https://www.materialui.co/icons?s=images   
+
+
+                    
+
+
+*************************************************************
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
+
+const useStyles = makeStyles({
+  list: {
+    width: 250,
+  },
+  fullList: {
+    width: 'auto',
+  },
+});
+
+export default function Header() {
+  const classes = useStyles();
+  const [state, setState] = React.useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
+  });
+
+  const toggleDrawer = (side, open) => event => {
+    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setState({ ...state, [side]: open });
+  };
+
+  const sideList = side => (
+    <div
+      className={classes.list}
+      role="presentation"
+      onClick={toggleDrawer(side, false)}
+      onKeyDown={toggleDrawer(side, false)}
+    >
+      <List>
+        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+    </div>
+  );
+
+  const fullList = side => (
+    <div
+      className={classes.fullList}
+      role="presentation"
+      onClick={toggleDrawer(side, false)}
+      onKeyDown={toggleDrawer(side, false)}
+    >
+      <List>
+        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+    </div>
+  );
+
+  return (
+    <div>
+      <Button onClick={toggleDrawer('left', true)}>Open Left</Button>
+      <Button onClick={toggleDrawer('right', true)}>Open Right</Button>
+      <Button onClick={toggleDrawer('top', true)}>Open Top</Button>
+      <Button onClick={toggleDrawer('bottom', true)}>Open Bottom</Button>
+      <SwipeableDrawer
+        open={state.left}
+        onClose={toggleDrawer('left', false)}
+        onOpen={toggleDrawer('left', true)}
+      >
+        {sideList('left')}
+      </SwipeableDrawer>
+      <SwipeableDrawer
+        anchor="top"
+        open={state.top}
+        onClose={toggleDrawer('top', false)}
+        onOpen={toggleDrawer('top', true)}
+      >
+        {fullList('top')}
+      </SwipeableDrawer>
+      <SwipeableDrawer
+        anchor="bottom"
+        open={state.bottom}
+        onClose={toggleDrawer('bottom', false)}
+        onOpen={toggleDrawer('bottom', true)}
+      >
+        {fullList('bottom')}
+      </SwipeableDrawer>
+      <SwipeableDrawer
+        anchor="right"
+        open={state.right}
+        onClose={toggleDrawer('right', false)}
+        onOpen={toggleDrawer('right', true)}
+      >
+        {sideList('right')}
+      </SwipeableDrawer>
+    </div>
+  );
+}
+
+============================== Example ==========================
+
+
+
+
+import React , { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+/*======== Components ==========*/
+
+import SideBar from '../SideNavBar/sidenavbar';
+
+ const Header = () => {
+/*----------- CSS --------------*/
+  const classes = useStyles();
+
+/*----------- Swipable Drawer Start --------------*/
+
+  const [state, setState] = useState({
+    isOpen: false
+  });
+
+  const toggleDrawer = (open) => event => {
+    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setState({
+       isOpen : open
+    });
+  
+  };
+
+  const openSidebar = () => {
+
+   return toggleDrawer(true);
+
+  }
+  
+/*----------- Swipable Drawer End --------------*/
+  return (
+
+    <div className={classes.header}>
+
+        {/* Sidebar Button */}
+        <IconButton onClick={openSidebar()}>
+          <MenuIcon className={classes.iconColor} />
+        </IconButton>
+        {/* SwipeableDrawer */}      
+        <SideBar 
+          open={state.isOpen}
+          onClose={toggleDrawer(false)}
+          onOpen={toggleDrawer(true)}
+        />
+
+    </div>
+  );
+}
+
+const useStyles = makeStyles({
+  list: {
+    width: 250,
+  },
+});
+
+
+export default Header;
+
+------------------ Sidebar start -----------------
+SideBar : 
+
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+
+/*======== Components ==========*/
+import SideBarLayout from '../SideNavBar/SidebarLayout/sidebarlayout';
+
+ const SideBar = (props) => {
+/*----------- CSS --------------*/
+  const classes = useStyles();
+
+/*----------- Swipable Drawer Start --------------*/
+
+/*----------- Swipable Drawer End --------------*/
+  return (
+
+    <span className={classes.sidebar}>
+        {/* SwipeableDrawer */}
+        <SwipeableDrawer
+        open={props.open}
+        onClose={props.onClose}
+        onOpen={props.onOpen}
+        >
+        {/* SideList */}          
+          <SideBarLayout {...props} />
+        </SwipeableDrawer>
+    </span>
+  );
+}
+
+const useStyles = makeStyles({
+ 
+ 
+});
+
+
+export default SideBar; 
+
+
+---------------------------- SideBar SideBarLayout
+
+/*---------------------Dynamic link creation 
+*Font Awesome : 
+*FontAwesome :  npm install @fortawesome/fontawesome-svg-core --save
+                npm install @fortawesome/react-fontawesome --save
+                npm install @fortawesome/free-solid-svg-icons --save (regular,brands,..)
+
+              > import { library } from '@fortawesome/fontawesome-svg-core'
+              > import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+              > import { fab } from '@fortawesome/free-brands-svg-icons'
+              > import { faCheckSquare, faCoffee } from '@fortawesome/free-solid-svg-icons'
+
+              Example : ------------------------------------------------------------------
+                    
+                library.add(fab, faCheckSquare, faCoffee)
+      
+---------------------------------------------*/
+
+import React from 'react';
+import { Link } from 'react-router-dom';
+import {FontAwesomeIcon}  from "@fortawesome/react-fontawesome";
+
+/****** Icons *****/
+import {faHome,faPlay,faImages,faVideo}  from "@fortawesome/free-solid-svg-icons";
+
+/****** Library for All types of icons *****/
+import { library } from '@fortawesome/fontawesome-svg-core';
+library.add(faHome,faPlay,faImages,faVideo);
+/****** CSS *****/
+import  './sidebarlayout.css';
+
+
+ const SideBarLayout = (props) => {
+
+    const linkItems = [
+      {
+          type : 'option',
+          icon : 'home',
+          text : 'Home',
+          link : '/'
+      },
+      {
+        type : 'option',
+        icon : 'video',
+        text : 'News',
+        link : '/fevorites'
+     },
+      {
+        type : 'option',
+        icon : 'play',
+        text : 'Videos',
+        link : '/videos'
+      },
+       {
+        type : 'option',
+        icon : 'images',
+        text : 'Home',
+        link : '/'
+      }
+
+    ]
+
+
+    const ShowItems = () => {
+
+      return linkItems.map((linkItem,i) => {
+          return <div key={i}  className={linkItem.type}>
+                    <Link
+                      to={linkItem.link}
+                    >
+                        <FontAwesomeIcon icon={ linkItem.icon } />
+                        {linkItem.text} 
+                    </Link>
+                </div>
+          
+      })
+
+    }
+
+  return (
+
+    /*----------- SideList --------------*/
+
+    <div
+      className = "sidenavbar"
+      role="presentation"
+      onClick={props.onClose}
+      onKeyDown={props.onClose}
+    >
+      
+      <div className="card shadow">
+                <div className="profileImageInSideNavBar mx-auto rounded-circle d-block shadow-lg"/>
+                <br/>
+                {ShowItems()}
+      </div>
+
+    </div>
+  
+
+  );
+}
+
+export default SideBarLayout;
+
+
+
+
+
+**********************************************************
+
+
+
+9. Footer 
+
+
+
+
+
+
+
+================================================================
+
+content : 
+
+1. Top vartical scroll bar for all products 
+> electronics,furniture,groceries,mobiles,fashion 
+
+> Table for main-categories  : (fashion,electronics,furniture) or if perticuler products like cycles :(hero,modern,children)
+
+[
+  main-categories  : [
+    {
+      name : 'category1',
+      image : 'img1',
+      to : '/subcategories',
+      css : 'style1.css'
+    },
+      {
+      name : 'category2',
+      image : 'img2',
+      to : '/subcategories',
+      css : 'style2.css'
+    },{
+      name : 'category3',
+      image : 'img3',
+      to : '/subcategories',
+      css : 'style3.css'
+    }, {
+      name : 'category4',
+      image : 'img4',
+      to : '/subcategories',
+      css : 'style4.css'
+    },{
+      name : 'category5',
+      image : 'img5',
+      to : '/subcategories',
+      css : 'style5.css'
+    }
+  ] 
+]
+
+2. Slider : 
+
+Slider : dynamic Slider
+
+[
+  Slider : [
+    {
+      slideImg : "img1",
+      caption: "caption1",
+      to : "/products"      
+    }, {
+      slideImg : "img2",
+      caption: "caption2",
+      to : "/products"      
+    }, {
+      slideImg : "img3",
+      caption: "caption3",
+      to : "/products"      
+    }
+  ]
+]
+
+3. deal of the day products :
+
+[
+  products which action : deal of the day (1)
+]
+
+4. category1 : 4 subcategories and link to category1 products
+
+5. category2 : 4 subcategories and link to category2 products
+
+....... categories 
+
+===================================================
+>>>> Subcategories.js
+
+
+props :  {
+      name : 'category1',
+      image : 'img1',
+      to : '/subcategories',
+      css : 'category1.css'
+    }
+
+it shows all Subcategories which are belongs to category1 
+
+
+-------------------------------Admin side 
+
+1. crud for category :   {
+      name : 'category1',
+      image : 'img1',
+      to : '/subcategories',
+      css : 'category1.css'
+    }
+
+2. crud subcategories : 
+  > select category : category1
+  > add subcategory : subcategory1
+  > image for subcategory1
+  > link : '/products'
+
+  3. crud for products :
+  > select category
+  > select subcategory
+  > crud for product : product 1
+  > image for product : product1_image
+
+
+
+----------------------------------------------------
+
+>[
+  { 
+    category : 'category1',
+    Subcategories  : [
+    {
+      name : 'subcategory1',
+      image : 'img1',
+      to : '/products',
+      css : 'style1.css'
+    },
+      {
+      name : 'subcategory2',
+      image : 'img2',
+      to : '/products',
+      css : 'style2.css'
+    },{
+      name : 'subcategory3',
+      image : 'img3',
+      to : '/products',
+      css : 'style3.css'
+    }, {
+      name : 'subcategory4',
+      image : 'img4',
+      to : '/products',
+      css : 'style4.css'
+    },{
+      name : 'subcategory5',
+      image : 'img5',
+      to : '/products',
+      css : 'style5.css'
+    }
+    ] 
+  }
+]
+
+
+> when user clicks on any subcategory then it goes to products component
+
+
+===================================================================
+
+Products.js
+
+props : category1,subcategory1 > show products which are from  : category1 subcategory1 
+
+[
+{
+  category : category1,
+  subcategory : subcategory1,
+  products : [
+    {
+      product : product1,
+      image : product1_image,
+      product_price : product1_price,
+      product_offer : 'deal of the day'
+      link : '/product_details'
+    }, {
+      product : product2,
+      image : product2_image,
+      product_price : product2_price,
+      product_offer : 'no'
+      link : '/product_details'
+    }, {
+      product : product3,
+      image : product3_image,
+      product_price : product3_price,
+      product_offer : 'no'
+      link : '/product_details'
+    }, {
+      product : product4,
+      image : product1_image,
+      product_price : product4_price,
+      product_offer : 'deal of the day'
+      link : '/product_details'
+    }
+  ]
+}
+
+]
+
+=============================================
+
+product_details.js
+
+show all details related to product 
+
+[
+  category : category1,
+  subcategory : subcategory1,
+  product1 : 
+    {
+      product : product1,
+      image : product1_image,
+      product_price : product1_price,
+      product_offer : 'deal of the day'
+      link : '/cart'
+    }
+  
+]
+
+=======================================================
+
+cart.js
+
+[
+  category : category1,
+  subcategory : subcategory1,
+  product : 
+    {
+      product : product1,
+      image : product1_image,
+      product_price : product1_price,
+      product_offer : 'deal of the day'
+      link : '/payment'
+    }
+  
+]
+
+
+////set all front view 
+
+
+config.js : file which export 
+
+password , url , year  and etc.., to other components
+
+
+> Reuseable components
+
+
+> JSON: JSON Server : https://github.com/typicode/json-server
+    > npm install -g json-server 
+    > json-server --watch db.json --port 3001
+    > now we can access our data in browser 
+
+> Widgets : which containg all Reuseable components
+
+    >   like slider 
+
+
+> dynamic Slider 
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+Dynamic Slider : npm install react-bootstrap bootstrap
+
+Best way to add slider 
+
+React Bootstrap  : https://react-bootstrap.github.io/getting-started/introduction/4
+
+1. home.js
+/**
+ * Home : 
+ * 
+ */
+
+
+import React from 'react';
+import Slider from '../Widgets/Slider/slider';
+
+const Home = () => {
+    return (
+        <div>  
+          <Slider
+            type = "template1"
+            start = {0}
+            end = {5}
+          />
+        </div>
+    )
+}
+
+export default Home;
+
+
+> Example 2 : Slider.js
+
+/**
+ * Slider.js : 
+ * 
+ */
+
+
+import React,{ Component } from 'react';
+import axios from 'axios';
+import SliderTemplate from './slider_template';
+
+
+class Slider extends Component{
+/**
+ * for data we need some request to database for that we need to install axios 
+ * > npm install axios --save
+ */
+
+ state = {
+     news : []
+ }
+
+ componentWillMount(props){
+    axios.get(`http://localhost:3001/articles?_start=${this.props.start}&_end=${this.props.end}`)
+    .then ( response => {
+       // console.log(response.data);
+       this.setState({
+           news : response.data
+       })
+    })
+ }
+
+    render() {
+        console.log(this.state.news);
+        return (
+            <div>
+                <SliderTemplate data = { this.state.news } type = "template1"/> 
+            </div>
+        )
+    }    
+
+}
+
+export default Slider;
+
+3.
+/**
+ * Slider Template : 
+ * install react-bootstrap bootstrap :  npm install react-bootstrap bootstrap
+ * 
+ */
+
+
+import React , {useState} from 'react';
+import {Carousel} from 'react-bootstrap';
+
+//css
+import './slider.css'
+
+const SliderTemplate = (props) => {
+   
+    const [index, setIndex] = useState(0);
+    const [direction, setDirection] = useState(null);
+      
+    const handleSelect = (selectedIndex, e) => {
+        setIndex(selectedIndex);
+        setDirection(e.direction);
+    };
+
+
+    let template = null;
+
+    switch (props.type) {
+        case ('template1') :
+            template = props.data.map((item,i) => {
+                return (
+                    <Carousel.Item key={i}>
+                        <div
+                            className="template1_image"
+                            style ={{
+                                background : `url(../images/articles/${item.image})`
+                            }}
+                        ></div>
+                        <Carousel.Caption>
+                            <h3>{item.id}</h3>
+                            <p>{item.title}</p>
+                        </Carousel.Caption>
+                    </Carousel.Item>
+                )
+            })
+            break;
+        default :
+        template = null;
+    }
+    
+    
+    return (
+      <div className="slider"> 
+            <Carousel activeIndex={index} direction={direction} onSelect={handleSelect}>
+               {template}
+            </Carousel>
+      </div>
+    )
+}
+
+export default SliderTemplate;
+
+
+///slider.css
+
+.template1_image{
+    position: relative;
+    width: 100%;
+    height: 450px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+}
+
+/*-------------- Responsive ---------------*/
+@media only screen and (max-width: 767px){
+  
+    .template1_image{
+        height: 250px;
+    }  
+    
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+Post : 
+
+image , video or document 
+
+Post_Item : 
+
+=================================load more button
+
+import React from 'react';
+import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
+import Slide from '@material-ui/core/Slide';
+
+function TransitionLeft(props) {
+  return <Slide {...props} direction="left" />;
+}
+
+function TransitionUp(props) {
+  return <Slide {...props} direction="up" />;
+}
+
+function TransitionRight(props) {
+  return <Slide {...props} direction="right" />;
+}
+
+function TransitionDown(props) {
+  return <Slide {...props} direction="down" />;
+}
+
+class DirectionSnackbar extends React.Component {
+  state = {
+    open: false,
+  };
+
+  handleClick = Transition => () => {
+    this.setState({ open: true, Transition });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  render() {
+    return (
+      <div>
+        <Button onClick={this.handleClick(TransitionLeft)}>Right</Button>
+        <Button onClick={this.handleClick(TransitionUp)}>Up</Button>
+        <Button onClick={this.handleClick(TransitionRight)}>Left</Button>
+        <Button onClick={this.handleClick(TransitionDown)}>Down</Button>
+        <Snackbar
+          open={this.state.open}
+          onClose={this.handleClose}
+          TransitionComponent={this.state.Transition}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">I love snacks</span>}
+        />
+      </div>
+    );
+  }
+}
+
+export default DirectionSnackbar;
+
+
+
+=================================================================
+post : 
+
+https://material-ui.com/components/lists#simple-list
+
+posted by image : https://material-ui.com/components/Avatars
+
+devider : https://material-ui.com/components/dividers
+
+
+
+================================================================
+
+notification icon : https://material-ui.com/components/badges
+
+Transitions : https://material-ui.com/components/transitions
+
+======================================================================
+
+material icons :
+
+>  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+>  import Icon from '@material-ui/core/Icon';
+
+    > <Icon>star</Icon>
+
+>   https://material.io/tools/icons/
+
+
+=====================================================================
+data tables : crud 
+
+> https://material-ui.com/components/tables
+
+> https://devexpress.github.io/devextreme-reactive/react/grid/
+
+> https://github.com/gregnb/mui-datatables
+
+
+=============================================================
+
+
+video component : 
+
+button https://material-ui.com/components/speed-dial
+
+
+
+==============Load more
+
+
+*******************infinite scroller 
+
+> npm install react-infinite-scroller --save
+
+> npm install react-infinite-scroll-component  --save
+
+
+
+
+==============================================
+
+Forms  : 
+
+1. Controlled Forms 
+
+2. Uncontrolled Forms 
+
+1. Controlled Form : 
+
+
+/**
+ * DynamicForm.js : it return jsx as per props : login,signup,forgotePassword etc..,
+ * 
+ */
+import React, { Component } from 'react';
+import { Card } from '@material-ui/core';
+import CardHeader from '@material-ui/core/CardHeader';
+
+class DynamicForm extends Component {
+
+handleSubmitClick = (event) => {
+    event.preventDefault();
+   
+    const value = {
+      name  : this.name.value,
+      lastname : this.lastname.value
+    }
+
+    console.log(value)
+
+}
+
+render(){
+   
+    return(        
+    <div>
+        <Card>
+           <form onSubmit={this.handleSubmitClick}>
+            <div className="form_element">
+                <label>Enter Name</label>
+                <input 
+                 type = "text"
+                 ref = {input => this.name = input}
+                />
+            </div>
+            <div className="form_element">
+                <label>Enter LastName</label>
+                <input 
+                 type = "text"
+                 ref = { input => this.lastname = input}
+                />
+            </div>
+            <button onClick={handleSubmitClick}>Login</button>
+           </form>
+
+        </Card>
+    </div>   
+    )
+}
+  
+}
+
+
+export default DynamicForm;
+
+2. Uncontrolled Form : 
+
+
+/**
+ * DynamicForm.js : it return jsx as per props : login,signup,forgotePassword etc..,
+ * 
+ */
+import React, { Component } from 'react';
+import { Card } from '@material-ui/core';
+import CardHeader from '@material-ui/core/CardHeader';
+
+class DynamicForm extends Component {
+
+state = {
+    name : '',
+    lastname : ''
+}
+
+handleNameChange = (event) => {
+
+this.setState({
+    name : event.target.value
+})
+
+}
+
+handleLastNameChange = (event) => {
+    this.setState({
+        lastname : event.target.value
+    })
+
+}
+
+handleSubmitClick = (event) => {
+    event.preventDefault();
+    console.log(this.state);
+}
+
+render(){
+   
+    return(        
+    <div>
+        <Card>
+           <form onSubmit={this.handleSubmitClick}>
+            <div className="form_element">
+                <label>Enter Name</label>
+                <input 
+                 type = "text"
+                 value = {this.state.name}
+                 onChange = {this.handleNameChange}
+                />
+            </div>
+            <div className="form_element">
+                <label>Enter LastName</label>
+                <input 
+                 type = "text"
+                 value = {this.state.lastname}
+                 onChange = {this.handleLastNameChange}
+                />
+            </div>
+            <button type="submit">Login</button>
+           </form>
+
+        </Card>
+    </div>   
+    )
+}
+  
+}
+
+
+export default DynamicForm;
+
+
+
+====================================================
+
+
+> How to define and call function in functional component 
+
+
+/**
+ * DynamicForm.js : it return jsx as per props : login,signup,forgotePassword etc..,
+ * 
+ */
+import React from 'react';
+import { Card } from '@material-ui/core';
+import FormFeilds from './Forms/formfields'; 
+
+const DynamicForm = (props) => {
+
+    const renderFeilds = () => {
+        
+    }
+
+
+
+    return(        
+    <div>
+        <Card>
+     
+            {renderFeilds()}
+
+           
+
+        </Card>
+    </div>   
+    )
+
+}
+
+
+export default DynamicForm;

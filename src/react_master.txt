@@ -1,0 +1,102 @@
+1. Fonts : https://fontawesome.com/icons?d=gallery
+
+import {FontAwesomeIcon}  from "@fortawesome/react-fontawesome";
+
+/****** Icons *****/
+import {faHome,faPlay,faImages,faVideo}  from "@fortawesome/free-solid-svg-icons";
+
+/****** Library for All types of icons *****/
+import { library } from '@fortawesome/fontawesome-svg-core';
+library.add(faHome,faPlay,faImages,faVideo);
+
+ <FontAwesomeIcon icon={ linkItem.icon } />
+
+2. JSON: JSON Server : https://github.com/typicode/json-server
+    > npm install -g json-server 
+    > json-server --watch db.json --port 3001
+    > now we can access our data in browser 
+    > import axios from 'axios';
+    
+
+
+3. React Bootstrap  : https://react-bootstrap.github.io/getting-started/introduction/
+
+    > import {Carousel} from 'react-bootstrap';
+    > import { Card , Container, Row, Col, Image} from  'react-bootstrap';
+     
+4. Material UI React : https://material-ui.com
+                      npm install @material-ui/core
+                      npm install @material-ui/icons    
+                    > https://www.materialui.co/icons?s=images
+
+
+5. App Bar : https://material-ui.com/components/app-bar
+
+
+6. Post Card : https://material-ui.com/components/cards
+
+7. Shadow : https://material-ui.com/system/shadows
+
+8. Bottom navigation
+
+9. Themes : https://themes.material-ui.com/ 
+
+10. Git : 
+    >   git --version 
+    >   git init 
+    >   git status  
+    >   git add <files>
+    >   .gitignore file for ignoring files in git 
+    >   git add . : for all files 
+    >   git commit -m "first commit"
+    >   git remote add origin https://github.com/Prkarena/rao.git
+    >   git push -u origin master.
+    >   username : Prkarena
+    >   password : karenaprakash@123
+
+    //optional
+    >   git config --global user.email "prakash.raoinfotech@gmail.com"
+    >   git config --global user.name "prakash karena"
+    >   install : source tree 
+
+
+11. Github : https://github.com/Prkarena/rao
+    >   online : github account > settings > SSH and GPG keys > 
+    >   url > helps.github.com/articles/checking-for-existing-ssh-keys
+    >   open git base > 
+        >   ls -al ~/.ssh
+        >   generate new ssh key : https://help.github.com/en/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+             >   ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+        >   clip < ~/.ssh/id_rsa.pub
+        >   Add SSH key to github Account 
+        >   Add SSH Agent to github : 
+            >   eval $(ssh-agent -s) 
+            >   ssh-add ~/.ssh/id_rsa
+            >   ssh -T git@github.com
+
+
+        >Creating Repo in github : rao
+        >git remote add origin https://github.com/Prkarena/rao.git
+        >git push -u origin master.
+
+12. Heroku : karenaprakash14@gmail.com  , karenaprakash@123
+>   install heroku cli : 64 bit 
+>   cmd :  heroku --help
+        :   heroku login 
+        :   heroku keys:add
+
+
+
+13.npm :
+
+>   npm install react-router-dom @material-ui/core material-auto-rotating-carousel react-infinite-scroll-component react-swipeable-views
+
+>   npm install @fortawesome/fontawesome-svg-core @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons --save 
+
+>   
+
+
+14. Firebase :
+>   create project in firebase : 
+>   npm install firebase@version --save (4.8.0)
+>
