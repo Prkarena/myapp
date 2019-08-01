@@ -14,6 +14,8 @@ import Header from './components/Header/header';
 import Footer from './components/Footer/footer';
 /********************* Css ************************/
 import './css/index.css';
+/********************* Firebase ************************/
+import './firebase';
 
 const App = () => {
 

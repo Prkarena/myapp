@@ -54,6 +54,9 @@ library.add(faHome,faPlay,faImages,faVideo);
     >   username : Prkarena
     >   password : karenaprakash@123
 
+    >   git remote set-url  origin https://github.com/Prkarena/myapp.git  : to set new origin
+
+
     //optional
     >   git config --global user.email "prakash.raoinfotech@gmail.com"
     >   git config --global user.name "prakash karena"
@@ -98,5 +101,5 @@ library.add(faHome,faPlay,faImages,faVideo);
 
 14. Firebase :
 >   create project in firebase : 
->   npm install firebase@version --save (4.8.0)
->
+>   npm install firebase@version --save (4.8.0) or npm install firebase --save 
+>   https://codelabs.developers.google.com/codelabs/firestore-web/#0

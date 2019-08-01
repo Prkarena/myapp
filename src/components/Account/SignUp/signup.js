@@ -21,7 +21,7 @@ class SignUp extends Component  {
                 config:{
                     name:'email_input',
                     type:'text',
-                    autocomplete:"off",
+                    autoComplete:"off",
                     placeholder:'Enter Your Email'
                 },validation:{
                     required:true
