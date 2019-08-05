@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Icon from '@material-ui/core/Icon';
+import { Grid } from '@material-ui/core';
 
 /****** CSS *****/
 import  './sidebarlayout.css';
@@ -18,19 +19,31 @@ import {USERNAME} from '../../../hoc/config';
           icon : 'person',
           text : 'Profile',
           link : '/profile'
-      }
+      }, {
+        type : 'option',
+        icon : 'dashboard',
+        text : 'Dashboard',
+        link : '/dashboard'
+    }
     ]
 
     const ShowItems = () => {
       return linkItems.map((linkItem,i) => {
-          return <div key={i}  className={linkItem.type}>
-                    <Link
-                      to={linkItem.link}
-                    >
-                         <Icon className="Icon">{ linkItem.icon }</Icon>
-                         <span className="linkItemText">{linkItem.text}</span>  
-                    </Link>
-                </div>          
+          return (
+                  <Link
+                    to={linkItem.link} 
+                    key = {i}
+                  >
+                    <Grid container key={i}  className={linkItem.type}>
+                      <Grid item xs={3}>
+                        <Icon className="Icon">{ linkItem.icon }</Icon>
+                      </Grid>
+                      <Grid item xs={9}>
+                        <label className="linkItemText">{linkItem.text}</label>  
+                      </Grid>
+                    </Grid>          
+                  </Link>
+          )                  
       })
     }
 

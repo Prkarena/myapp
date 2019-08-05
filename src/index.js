@@ -15,7 +15,21 @@ import Footer from './components/Footer/footer';
 /********************* Css ************************/
 import './css/index.css';
 /********************* Firebase ************************/
-import './firebase';
+import {firebase} from './firebase';
+/* BootStrap */
+import './css/bootstrap.min.css';
+/**
+ * 
+ * Icons 
+ * 
+ */
+
+
+import {faHome,faPlay,faImages,faVideo,faUser,faShoppingCart,faSearch,faBell,faHeart,faComment,faShare}  from "@fortawesome/free-solid-svg-icons";
+
+/****** Library for All types of icons *****/
+import { library } from '@fortawesome/fontawesome-svg-core';
+library.add(faHome,faPlay,faImages,faVideo,faUser,faShoppingCart,faSearch,faBell,faHeart,faComment,faShare);
 
 const App = () => {
 

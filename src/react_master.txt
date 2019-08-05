@@ -103,3 +103,21 @@ library.add(faHome,faPlay,faImages,faVideo);
 >   create project in firebase : 
 >   npm install firebase@version --save (4.8.0) or npm install firebase --save 
 >   https://codelabs.developers.google.com/codelabs/firestore-web/#0
+
+15. Dashboard :
+
+> npm install react-draft-wysiwyg draft-js draft-js-export-html --save
+
+import { Editor } from 'react-draft-wysiwyg';
+
+import { EditorState, ConvertFromRaw , ConvertToRaw } from 'draft-js';
+
+import { stateToHtml } from 'draft-js-export-html';
+
+> add css file in public using node module > react-draft > dist  > css and include it in index.html
+
+
+16. moment npm :
+
+
+

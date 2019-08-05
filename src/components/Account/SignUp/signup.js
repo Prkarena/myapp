@@ -7,7 +7,8 @@ import { Redirect  } from 'react-router-dom';
 import DynamicForm from '../../Widgets/DynamicForm/dynamicForm';
 /*-------- CSS -----------*/
 import './signup.css';
-import { firebaseDB } from '../../../firebase';
+import { firebase , firebaseDB } from '../../../firebase';
+
 
 class SignUp extends Component  {
 
@@ -83,19 +84,31 @@ class SignUp extends Component  {
                 }
             },
         },
+        redirect : false,
+
     }
 
 
     updateForm = (newState,id) => {
      
         if(id === 'confirem_password'){
-            console.log(id)
-            console.log(newState[id].value)
-            console.log(newState['password'].value)
             if(newState['password'].value !== newState[id].value){
-                newState[id].validationMessage = 'password not match.'
+                newState[id].validationMessage = 'password not match.';
                 newState[id].valid = false;
             }
+        }else if(id === 'email'){
+                const valid = /\S+@\S+\.\S+/.test(newState['email'].value);
+                if(!valid){
+                    newState[id].validationMessage = 'Must Be a valid Email';
+                    newState[id].valid = false;
+                }
+                
+
+             /*   if(newState['email'].value !== newState[id].value){
+                    newState[id].validationMessage = 'password not match.';
+                    newState[id].valid = false;
+                }
+            */
         }
         
 
@@ -105,33 +118,63 @@ class SignUp extends Component  {
 
     }
 
-    submitData = (dataToSubmit) => {
-/*
-        let user = dataToSubmit.email;
-        let password = dataToSubmit.password;
-        dataToSubmit = [user,password];
 
+    submitData = (dataToSubmit) => {
+
+        let email = dataToSubmit.email;
+        let password = dataToSubmit.password;
+
+        firebase.auth()
+        .createUserWithEmailAndPassword(
+            email,password  
+        ).then(() => {
+            this.setState({
+                redirect : true,
+            })
+            alert('Registration Done.')
+        }).catch( error => {
+            alert('Error While Registaring.');
+            return;
+        })
+        /*
+        dataToSubmit = { 'user_email': user,'password' : password};
+        console.log(dataToSubmit)
         firebaseDB.collection("users").doc(user).set({
             dataToSubmit
-        }).then(function(docRef){
-            <Redirect to="/login" />
-        }).then(function(error){
-            console.log('error adding document ',error)
+
+        }).then(function(){
+
+          console.log("user added." )
+          
+        }).catch(function(error){
+            console.log('error adding document ', error)
+            return
         })
 */
+        
+
     }
+
+    
 
 
     render(){
-        return(
+
+       const { redirect } = this.state;
+
+       let template = redirect ? <Redirect to="/login" /> :  
+        <DynamicForm 
+        for = {this.state.for}
+        formData = { this.state.formData }
+        change = {this.updateForm}
+        submitData = { this.submitData }
+            /> ;
             
-            <DynamicForm 
-                for = {this.state.for}
-                formData = { this.state.formData }
-                change = {this.updateForm}
-                submitData = { this.submitData }
-            /> 
-         
+        return(
+            <div>           
+                {template}
+            </div>
+           
       )
     }
    

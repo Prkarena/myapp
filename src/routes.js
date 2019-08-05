@@ -16,7 +16,7 @@
  import PostItem from './components/Widgets/PostItem/postitem';
  import Login from './components/Account/Login/login';
  import SignUp from './components/Account/SignUp/signup';
- import Dashbord from './components/Dashbord/dashbord';
+ import Dashboard from './components/Dashbord/dashbord';
  import ForgotPassword from './components/Account/ForgotPassword/forgotpassword';
 
 
@@ -28,7 +28,7 @@
         <Switch>
             <Route path="/login" exact component={Login}/>
             <Route path="/forgotpassword" exact component={ForgotPassword}/>
-            <Route path="/dashbord" exact component={Dashbord}/>
+            <Route path="/dashboard" exact component={Dashboard}/>
             <Route path="/signup" exact component={SignUp}/>
             <Route path="/profile" exact component={Profile}/>
             <Route path="/notification" exact component={Notification}/>

@@ -14,7 +14,7 @@ const Home = () => {
           <Slider
             type = "template1"
             start = {0}
-            end = {6}
+            end = {4}
           />
           <Post
            start = {0}

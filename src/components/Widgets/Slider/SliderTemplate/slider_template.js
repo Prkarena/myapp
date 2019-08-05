@@ -49,7 +49,7 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
               <div
                    className = {classes.img}
                     style ={{
-                        background : `url(../images/articles/${step.image})`,
+                        background : `url(../images/articles/${step.data})`,
                         backgroundRepeat:'no-repeat',
                         backgroundSize:'cover',
                         position: 'relative',

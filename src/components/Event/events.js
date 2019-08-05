@@ -16,7 +16,7 @@ class Event extends Component{
             <div className="event">
                  <Post
                   start = {0}
-                  end = {4}
+                  end = {3}
                   type = "event"
                   />
             </div>

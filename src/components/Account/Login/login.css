@@ -6,3 +6,11 @@
 .form_element .Sign-up{
     width: 100%;
 }
+
+
+.signout-button{
+    position: relative;
+    width: 100%;
+    text-align: center;
+    margin-top: 100px;
+}

@@ -1,55 +1,52 @@
+
 /**
- * dashbord.js : Main Component 
- * Loader
- * BrowserRouter : Routes 
- * Header and Footer for all routes 
+ * dashbord.js : Admin
  */
-import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
- /****************** Components ******************/
-import Routes from '../../routes';
-import Header from '../Header/header';
-import Footer from '../Footer/footer';
+import React , { Component } from 'react';
+ /****************** Editor ******************/
+ import { Editor } from 'react-draft-wysiwyg';
+ import { EditorState, convertFromRaw , convertToRaw } from 'draft-js';
+ import { stateToHtml, stateToHTML } from 'draft-js-export-html';
+
 /********************* Css ************************/
 import './dashbord.css';
-/* BootStrap */
-import '../../css/bootstrap.min.css';
 
-/**
- * 
- * Icons 
- * 
- */
+class Dashbord extends Component {
+    
+    state = {
+        editorState : EditorState.createEmpty(),
+    }
 
+    /*-------------- onEditorStateChange ----------------*/
+    onEditorStateChange = (editorState) => {
 
-import {faHome,faPlay,faImages,faVideo,faUser,faShoppingCart,faSearch,faBell,faHeart,faComment,faShare}  from "@fortawesome/free-solid-svg-icons";
+        let contentState = editorState.getCurrentContent();
+        /*---------- convert data into json formate ---------------*/        
+        let rawState = convertToRaw(contentState);
+        /*---------- convert data into html formate ---------------*/        
+        let html = stateToHTML(contentState);
 
-/****** Library for All types of icons *****/
-import { library } from '@fortawesome/fontawesome-svg-core';
-library.add(faHome,faPlay,faImages,faVideo,faUser,faShoppingCart,faSearch,faBell,faHeart,faComment,faShare);
+            this.setState({
+                editorState
+            })
+    }
 
+    render(){
+        return(
+            <div 
+               className = "dashboard"
+            >
 
-const Dashbord = () => {
+            <Editor
+                editorState = {this.state.editorState}
+                wrapperClassName = "myEditor-wrapper"
+                editorClassName = "myEditor-editor"
+                onEditorStateChange = {this.onEditorStateChange}
+            />
 
-/********************* Loader Start ************************/
-
-
-
-
-/********************* Loader End ************************/
-
-
-    return(
-        <BrowserRouter>
-            <div className = "mainContainer">
-                <Header/>   
-                <Routes/>
-                <div className="footer">
-                    <Footer />
-                </div>
             </div>
-        </BrowserRouter>
-    )
+           )
+    }
 }
 
 

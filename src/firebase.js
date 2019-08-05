@@ -21,13 +21,47 @@
   firebase.initializeApp(firebaseConfig);
   //Database 
   const firebaseDB = firebase.firestore();
+  const googleAuth = new firebase.auth.GoogleAuthProvider();
+
+  let firebasePosts =  firebaseDB.collection('posts');
+  let firebaseEvents = firebaseDB.collection('events');
+  
+  /*------- loop the data come from firebase and return array ----------*/
+  const firebaseLooper = (snapshot) => {
+    const data = [];
+    snapshot.forEach(function(doc) {  
+            data.push(doc.data().item);
+    });
+    return data;
+  }
+
+
+/*
+
+
+firebaseDB.collection("events").get().then(function(querySnapshot) {
+    querySnapshot.forEach(function(doc) {
+        firebaseEvents = doc.data();
+
+    });
+});
+
+
+  
+*/
 
   export{
-    firebaseDB
+      firebase,
+    firebaseDB,
+    googleAuth,
+    firebasePosts,
+    firebaseEvents,
+    firebaseLooper,
   }
 
 /*------ Add data
-
+//gAuth : 995992327252-acb1igj6p76d27095nqbv6gidc3e71i9.apps.googleusercontent.com
+//client secret :wyHQedctLxT8Ol8PQquSL9qC
   //id auto generate
   database.collection("users").add({
       firstName : 'Prakash',
@@ -89,11 +123,12 @@ database.collection("users").doc("user1").delete().then(function() {
 
 /*---------------------- Get Single Document 
 
-const docRef = database .collection("users").doc("user2");
+
+const docRef = firebasePosts.doc("1");
 
 docRef.get().then(function(doc) {
     if (doc.exists) {
-        console.log("Document data:", doc.data());
+        console.log(doc.data().item);
     } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
@@ -101,9 +136,9 @@ docRef.get().then(function(doc) {
 }).catch(function(error) {
     console.log("Error getting document:", error);
 });
-
-
  --------------------------------*/
+
+
 
 /*---------------------- Get Multiple Document 
 
@@ -287,3 +322,30 @@ firebase.firestore().enableNetwork()
 
 ------------------*/
 
+/*
+  signOut = () => {
+        firebase.auth().signOut().then(() => {
+            alert('Sign-Out Successfully');
+            this.setState({
+                redirect : false
+            })
+          }).catch(function(error) {
+            alert('Error While Sign-Out');            
+          });
+
+        
+    }
+
+    User exist : 
+
+
+
+            firebase.auth().onAuthStateChanged((user) =>{
+              if(user !== ''){
+                    this.setState({
+                        redirect : true
+                    })
+              }
+            })
+            
+*/

@@ -9,6 +9,8 @@ import axios from 'axios';
 import PostTemplateMaterialui from '../Widgets/PostCreatorMaterialUi/postTemplateMaterialui';
 import './post.css'
 import InfiniteScroll from "react-infinite-scroll-component";
+/*----------- firebase  -------------------*/
+import { firebasePosts , firebaseEvents ,firebaseLooper} from '../../firebase';
 
 class Post extends Component{
 /**
@@ -32,18 +34,42 @@ class Post extends Component{
 
  request = (start,end) => {
   
-     if(this.props.type === "post")
-    {  
-        axios.get(`http://localhost:3001/Posts?_start=${start}&_end=${end}`)
-        .then ( response => {
-            //console.log(response.data);
-           this.setState({
-               posts : [...this.state.posts,...response.data],
-               start ,
-               end
-           })
-        })
-    }else if(this.props.type === "event"){
+        if(this.props.type === "post")
+        {  
+        /* 
+                axios.get(`http://localhost:3001/Posts?_start=${start}&_end=${end}`)
+                .then ( response => {
+                    //console.log(response.data);
+                this.setState({
+                    posts : [...this.state.posts,...response.data],
+                    start ,
+                    end
+                })
+                })
+        */
+        firebasePosts.orderBy("item.id").startAt(start).endAt(end)
+        .get().then((querySnapshot) => {
+            const posts = firebaseLooper(querySnapshot);
+            this.setState({
+                posts : [...this.state.posts,...posts],
+                start ,
+                end
+            })
+        });
+
+
+        }else if(this.props.type === "event"){
+        firebaseEvents.orderBy("item.id").startAt(start).endAt(end)
+        .get().then((querySnapshot) => {
+            const events = firebaseLooper(querySnapshot);
+            this.setState({
+                posts :[...this.state.posts,...events],
+                start ,
+                end
+            })
+        });
+
+        /*
         axios.get(`http://localhost:3001/Events?_start=${start}&_end=${end}`)
         .then ( response => {
             //start and end going to change as per request start and
@@ -52,14 +78,15 @@ class Post extends Component{
               start ,
               end
            })
-        })
+        })*/
     }
  }
 
  loadMore = () =>{
      let end = this.state.end + this.state.amount;
-     this.request(this.state.end,end);
+     this.request(this.state.end + 1 ,end);
  }
+
     render(props) {
         return (
             <InfiniteScroll

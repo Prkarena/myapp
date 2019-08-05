@@ -6,17 +6,31 @@
  */
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-
+import { firebaseDB } from '../../../firebase';
 /*----------------- Components ------------------- */
 
 import PostCreatorMaterialUi from './postcreatorMaterialui';
+
+
 
 const PostTemplateMaterialui = (props) => {
     // template : for storing each post and shown in post div 
     let template = null;
     template = props.data.map((item,i) => {
       //widget > post > 
+      
        return  <PostCreatorMaterialUi data={item} key={i} action = { props.action } />
+     
+/*  ---------  for adding static json data -------------
+firebaseDB.collection("events").doc(`${i+1}`).set({
+item
+}).then(function(docRef){
+  return  <PostCreatorMaterialUi data={item} key={i} action = { props.action } />
+}).then(function(error){
+   return;
+})
+*/
+    
     })
     return (
       <div className="post pt-2"> 

@@ -6,6 +6,7 @@
 
 import React , { Component } from 'react';
 import axios from 'axios';
+import { firebasePosts, firebaseEvents } from '../../../firebase';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
@@ -23,11 +24,40 @@ class PostItem extends Component {
     }
 
     componentWillMount(props){
-      //  console.log(this.props);
+
+        //console.log(this.props.match.params.id);
         let post_id = this.props.match.params.id;
         let action = this.props.match.url ;
     
         if(action.match(/post/)){
+
+     
+
+        const docRef = firebasePosts.doc(post_id);
+
+        docRef.get().then((doc) => {
+        if (doc.exists) {
+            let data = doc.data().item;
+            this.setState({
+                data,
+                id : post_id,
+                post: 'posts',
+                img : 'articles'
+            })
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+        }).catch(function(error) {
+            console.log("Error getting document:", error);
+        });
+
+
+
+
+    /*
+
+
             axios.get(`http://localhost:3001/Posts?id=${post_id}`)
             .then ( response => {
                let data = response.data[0];
@@ -40,7 +70,31 @@ class PostItem extends Component {
 
                })
             })
+*/
         }else if(action.match(/event/)){
+
+        const docRef = firebaseEvents.doc(post_id);
+
+        docRef.get().then((doc) => {
+        if (doc.exists) {
+            let data = doc.data().item;
+            this.setState({
+                data,
+                id : post_id,
+                post: 'events',
+                img : 'events'
+            })
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+        }).catch(function(error) {
+            console.log("Error getting document:", error);
+        });
+
+    /*
+
+
             axios.get(`http://localhost:3001/Events?id=${post_id}`)
             .then ( response => {
                 //start and end going to change as per request start and
@@ -53,6 +107,8 @@ class PostItem extends Component {
                  })
                 
             })
+            */
+
         }
     }
 
