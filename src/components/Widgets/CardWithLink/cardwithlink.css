@@ -1,0 +1,23 @@
+.linkcard{
+    text-align: center;
+    text-decoration: none;
+    margin: 5px;
+    padding: 20px;
+}
+
+.cardLabel{
+    margin: 0px;
+    padding: 5px;
+}
+
+
+.iconColor{
+    text-decoration: none;
+
+}
+
+.iconColor :hover{
+    text-decoration: none;
+    
+}
+

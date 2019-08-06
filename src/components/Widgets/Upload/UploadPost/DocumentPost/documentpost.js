@@ -4,17 +4,14 @@
  */
 import React , { Component } from 'react';
 
-import DynamicForm from '../../Widgets/DynamicForm/dynamicForm';
-import {Grid} from '@material-ui/core';
-
+import DynamicForm from '../../../DynamicForm/dynamicForm';
 /*-------- CSS -----------*/
-import './forgotpassword.css';
+import './documentpost.css';
 
-class ForgotPassword extends Component  {
+class DocumentPost extends Component  {
 
-    
     state = {
-        for:"Forgot Password",
+        for:"Document Post",
         formData:{
             email:{
                 element:'input',
@@ -66,27 +63,12 @@ class ForgotPassword extends Component  {
 
     render(){
         return(
-            <Grid 
-            container
-            direction="row"
-            justify="center"
-            alignItems="center"
-            className="dynamicForm"
-             >
-                <Grid item
-                    xs={12}
-                    sm={6}
-                    md={5}
-                    lg={4}
-                    className="form"
-                >
-                <DynamicForm 
-                    for = {this.state.for}
-                    formData = { this.state.formData }
-                    change = {this.updateForm}
-                /> 
-                </Grid>
-            </Grid>
+            
+            <DynamicForm 
+                for = {this.state.for}
+                formData = { this.state.formData }
+                change = {this.updateForm}
+            /> 
          
       )
     }
@@ -94,4 +76,4 @@ class ForgotPassword extends Component  {
 }
 
 
-export default ForgotPassword;
+export default DocumentPost;

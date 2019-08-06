@@ -18,7 +18,7 @@
  import SignUp from './components/Account/SignUp/signup';
  import Dashboard from './components/Dashbord/dashbord';
  import ForgotPassword from './components/Account/ForgotPassword/forgotpassword';
-
+ import Upload from './components/Widgets/Upload/upload';
 
 
 
@@ -28,6 +28,8 @@
         <Switch>
             <Route path="/login" exact component={Login}/>
             <Route path="/forgotpassword" exact component={ForgotPassword}/>
+            <Route path="/dashboard/uploadpost" exact component={Upload}/>
+            <Route path="/dashboard/uploadevent" exact component={Upload}/>
             <Route path="/dashboard" exact component={Dashboard}/>
             <Route path="/signup" exact component={SignUp}/>
             <Route path="/profile" exact component={Profile}/>

@@ -19,7 +19,8 @@ const LinkItem = (props) => {
         className="link"
         >
           <Card>  
-            <IconButton className="stickToRight">
+            <IconButton
+             className="stickToRight">
                   <FontAwesomeIcon icon="shopping-cart" className="iconColor" size="xs"  />
             </IconButton>
           </Card>

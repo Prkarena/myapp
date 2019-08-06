@@ -1,0 +1,533 @@
+
+import React from 'react';
+import PropTypes from 'prop-types';
+import SwipeableViews from 'react-swipeable-views';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <Typography
+      component="div"
+      role="tabpanel"
+      hidden={value !== index}
+      id={`full-width-tabpanel-${index}`}
+      aria-labelledby={`full-width-tab-${index}`}
+      {...other}
+    >
+      <Box p={3}>{children}</Box>
+    </Typography>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `full-width-tab-${index}`,
+    'aria-controls': `full-width-tabpanel-${index}`,
+  };
+}
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    backgroundColor: theme.palette.background.paper,
+    width: 500,
+  },
+}));
+
+export default function FullWidthTabs() {
+  const classes = useStyles();
+  const theme = useTheme();
+  const [value, setValue] = React.useState(0);
+
+  function handleChange(event, newValue) {
+    setValue(newValue);
+  }
+
+  function handleChangeIndex(index) {
+    setValue(index);
+  }
+
+  return (
+    <div className={classes.root}>
+      <AppBar position="static" color="default">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          indicatorColor="primary"
+          textColor="primary"
+          variant="fullWidth"
+          aria-label="full width tabs example"
+        >
+          <Tab label="Item One" {...a11yProps(0)} />
+          <Tab label="Item Two" {...a11yProps(1)} />
+          <Tab label="Item Three" {...a11yProps(2)} />
+        </Tabs>
+      </AppBar>
+      <SwipeableViews
+        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+        index={value}
+        onChangeIndex={handleChangeIndex}
+      >
+        <TabPanel value={value} index={0} dir={theme.direction}>
+          Item One
+        </TabPanel>
+        <TabPanel value={value} index={1} dir={theme.direction}>
+          Item Two
+        </TabPanel>
+        <TabPanel value={value} index={2} dir={theme.direction}>
+          Item Three
+        </TabPanel>
+      </SwipeableViews>
+    </div>
+  );
+}
+
+
+
+===========================================
+
+/*
+
+
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import SwipeableViews from 'react-swipeable-views';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+
+
+
+/*-------- Component -----------*/
+import DynamicForm from '../../DynamicForm/dynamicForm';
+
+/*-------- CSS -----------*/
+import './uploadpost.css';
+/*------- Firebase Database -----------*/
+
+class UploadPost extends Component  {
+
+    state = {
+        action :"",
+        formData:{},
+    }
+
+
+    updateForm = (newState,id) => {
+        /*----------- Post Type : image,video or pdf  ------------*/
+       this.setState({
+           formData : newState
+       })  
+    }
+    
+
+
+    submitData = (dataToSubmit) => {
+
+        console.log(dataToSubmit)
+        
+    }
+
+  
+
+
+    render(){
+       
+        
+        let  { action , formData } = this.state;
+
+        return(
+            <div>  
+                       Post
+            </div>
+      )
+    }
+   
+}
+
+
+export default UploadPost;
+
+
+
+
+
+
+
+
+
+*/=================================
+
+
+/**
+ * upload.js : upload post,event
+ * 
+ */
+import React , { Component } from 'react';
+import { Redirect  } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+
+
+/*-------- Component -----------*/
+import DynamicForm from '../../Widgets/DynamicForm/dynamicForm';
+
+/*-------- CSS -----------*/
+import './upload.css';
+/*------- Firebase Database -----------*/
+import {firebase } from '../../../firebase';
+
+class Upload extends Component  {
+
+    state = {
+        action :"",
+        formData:{},
+    }
+
+    componentWillMount = (props) => {
+
+        let action = this.props.match.url ;
+        if(action.match(/post/)){
+            this.setState({
+                action : 'Upload Post',
+                formData : {
+                 Type:{
+                     element:'select',
+                     value:'1',
+                     label:true,
+                     labelText:'Select Post',
+                     config:{
+                       name:'post_type_input',
+                       options:[
+                           { val:'1', text:'Image'},
+                           { val:'2', text:'Video'},
+                           { val:'3', text:'Document'}
+                       ]
+                     },validation:{
+                         required:false
+                     },
+                     valid:false,
+                     touched:false,
+                     validationMessage:''
+                  },Image:{
+                    element:'input',
+                    value:'',
+                    label:true,
+                    labelText:'Image',
+                    config:{
+                        name:'image_input',
+                        type:'file',
+                    },validation:{
+                        required:true
+                    },
+                    valid:false,
+                    touched:false,
+                    validationMessage:''
+                },submitData:{
+                    element:'button',
+                    value:'Upload',
+                    link:'',
+                    config:{
+                        variant:'contained',
+                        color:'primary',
+                        size:'small',
+                        type:'submit',
+                    }
+                },backButton:{
+                     element:'button',
+                     value:'Back',
+                     link:'/dashboard',
+                     config:{
+                         variant:'contained',
+                         color:'primary',
+                         size:'small',
+                         type:'button',
+                     },
+                 },
+                }
+            })
+        }else if(action.match(/event/)){
+         this.setState({
+             action : 'Upload Event',
+             formData : {
+                 Image:{
+                     element:'input',
+                     value:'',
+                     label:true,
+                     labelText:'Image',
+                     config:{
+                         name:'image_input',
+                         type:'file',
+                         autoComplete:"off",
+                     },validation:{
+                         required:true
+                     },
+                     valid:false,
+                     touched:false,
+                     validationMessage:''
+                 },
+               backButton:{
+                  element:'button',
+                  value:'Back',
+                  link:'/dashboard',
+                  config:{
+                      variant:'contained',
+                      color:'primary',
+                      size:'small',
+                      type:'button',
+                  }
+              },
+             }
+         })
+        }
+     }
+
+     componentDidUpdate = (newProps,newState) => {
+        let action = newProps.match.url ;
+        /*---- Posts ------------*/
+        if(action.match(/post/)){
+
+            let Post = {};
+            const postType = newState.formData.Type.value;
+
+           if(postType == 1 ){
+               Post = {
+                   Type:{
+                       element:'select',
+                       value:'',
+                       label:true,
+                       labelText:'Select Post',
+                       config:{
+                       name:'post_type_input',
+                       options:[
+                           { val:'1', text:'Image'},
+                           { val:'2', text:'Video'},
+                           { val:'3', text:'Document'}
+                       ]
+                       },validation:{
+                           required:false
+                       },
+                       valid:false,
+                       touched:false,
+                       validationMessage:''
+                   },Image:{
+                       element:'input',
+                       value:'',
+                       label:true,
+                       labelText:'Image',
+                       config:{
+                           name:'image_input',
+                           type:'file',
+                       },validation:{
+                           required:true
+                       },
+                       valid:false,
+                       touched:false,
+                       validationMessage:''
+                   },submitData:{
+                    element:'button',
+                    value:'Upload',
+                    link:'',
+                    config:{
+                        variant:'contained',
+                        color:'primary',
+                        size:'small',
+                        type:'submit',
+                    }
+                },backButton:{
+                       element:'button',
+                       value:'Back',
+                       link:'/dashboard',
+                       config:{
+                           variant:'contained',
+                           color:'primary',
+                           size:'small',
+                           type:'button',
+                       },
+                   },
+               }
+               this.setState({
+                   formData : Post
+               })
+           }else if(postType == 2){
+               Post = {
+                   Type:{
+                       element:'select',
+                       value:'',
+                       label:true,
+                       labelText:'Select Post',
+                       config:{
+                       name:'post_type_input',
+                       options:[
+                           { val:'1', text:'Image'},
+                           { val:'2', text:'Video'},
+                           { val:'3', text:'Document'}
+                       ]
+                       },validation:{
+                           required:false
+                       },
+                       valid:false,
+                       touched:false,
+                       validationMessage:''
+                   },video:{
+                       element:'input',
+                       value:'',
+                       label:true,
+                       labelText:'Video',
+                       config:{
+                           name:'video_input',
+                           type:'url',
+                           placeholder : 'Please enter video url'
+                       },validation:{
+                           required:true
+                       },
+                       valid:false,
+                       touched:false,
+                       validationMessage:''
+                   },submitData:{
+                    element:'button',
+                    value:'Upload',
+                    link:'',
+                    config:{
+                        variant:'contained',
+                        color:'primary',
+                        size:'small',
+                        type:'submit',
+                    }
+                },backButton:{
+                       element:'button',
+                       value:'Back',
+                       link:'/dashboard',
+                       config:{
+                           variant:'contained',
+                           color:'primary',
+                           size:'small',
+                           type:'button',
+                       },
+                   },
+               }
+               this.setState({
+                   formData : Post
+               })
+           }else if( postType == 3 ){
+               Post = {
+                   Type:{
+                       element:'select',
+                       value:'',
+                       label:true,
+                       labelText:'Select Post',
+                       config:{
+                       name:'post_type_input',
+                       options:[
+                           { val:'1', text:'Image'},
+                           { val:'2', text:'Video'},
+                           { val:'3', text:'Document'}
+                       ]
+                       },validation:{
+                           required:false
+                       },
+                       valid:false,
+                       touched:false,
+                       validationMessage:''
+                   },document:{
+                       element:'input',
+                       value:'',
+                       label:true,
+                       labelText:'Document',
+                       config:{
+                           name:'document_input',
+                           type:'file',
+                       },validation:{
+                           required:true
+                       },
+                       valid:false,
+                       touched:false,
+                       validationMessage:''
+                   },submitData:{
+                    element:'button',
+                    value:'Upload',
+                    link:'',
+                    config:{
+                        variant:'contained',
+                        color:'primary',
+                        size:'small',
+                        type:'submit',
+                    }
+                },backButton:{
+                       element:'button',
+                       value:'Back',
+                       link:'/dashboard',
+                       config:{
+                           variant:'contained',
+                           color:'primary',
+                           size:'small',
+                           type:'button',
+                       },
+                   },
+               }
+               this.setState({
+                   formData : Post
+               })
+           }
+
+        }
+         
+     }
+
+
+    updateForm = (newState,id) => {
+        /*----------- Post Type : image,video or pdf  ------------*/
+       this.setState({
+           formData : newState
+       })  
+    }
+    
+
+
+    submitData = (dataToSubmit) => {
+
+        console.log(dataToSubmit)
+        
+    }
+
+
+
+
+    render(props){
+
+        let  { action , formData } = this.state;
+
+        let template = 
+        <DynamicForm 
+        for = { action}
+        formData = { formData }
+        change = {this.updateForm}
+        submitData = { this.submitData }
+        />  ;
+            
+
+        return(
+            <div>           
+                {template}
+            </div>
+      )
+    }
+   
+}
+
+
+export default Upload;

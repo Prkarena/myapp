@@ -4,7 +4,7 @@
  */
 import React , { Component } from 'react';
 import { Redirect  } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
+import {Button,Grid} from '@material-ui/core';
 
 
 /*-------- Component -----------*/
@@ -151,7 +151,8 @@ class Login extends Component  {
     componentWillMount = () => {
 
             firebase.auth().onAuthStateChanged((user) =>{
-              if(user !== ''){
+               // console.log(user)
+              if(user !== null ){
                     this.setState({
                         redirect : true
                     })
@@ -162,10 +163,12 @@ class Login extends Component  {
 
     signOut = () => {
         firebase.auth().signOut().then(() => {
-            alert('Sign-Out Successfully');
             this.setState({
                 redirect : false
             })
+
+            alert('Sign-Out Successfully');
+
           }).catch(function(error) {
             alert('Error While Sign-Out');            
           });
@@ -177,8 +180,9 @@ class Login extends Component  {
     render(){
 
         let  { action , formData, redirect } = this.state;
+        //  console.log(redirect)
+        let template = redirect ? (
 
-        let template = redirect ? 
         <div className="signout-button">
             <Button variant="contained" color="primary"
                 onClick = {() => this.signOut()}
@@ -186,13 +190,37 @@ class Login extends Component  {
                 Sign-Out
             </Button>
         </div>
+
+
+
+        )
         :  
-        <DynamicForm 
-        for = { action}
-        formData = { formData }
-        change = {this.updateForm}
-        submitData = { this.submitData }
-        />  ;
+        (
+
+        <Grid 
+        container
+        direction="row"
+        justify="center"
+        alignItems="center"
+        className="dynamicForm"
+        >
+            <Grid item
+                xs={12}
+                sm={6}
+                md={5}
+                lg={4}
+                className="form"
+            >
+             <DynamicForm 
+                for = { action}
+                formData = { formData }
+                change = {this.updateForm}
+                submitData = { this.submitData }
+                />             
+            </Grid>
+        </Grid>
+        )
+        ;
             
 
         return(

@@ -6,6 +6,9 @@ import React from 'react';
 import { Grid, Divider, Button, Box } from '@material-ui/core';
 import { Card, CardHeader } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+/*-------  Editor ---------------*/
+import { Editor } from 'react-draft-wysiwyg';
+
 /*------ CSS ----------*/
 import './dynamicForm.css';
 
@@ -38,7 +41,7 @@ const validate = (element) => {
 }
 
 const changeHandler = (event,id) =>{
-    
+    console.log(event)
     const newState = props.formData;
     
     newState[id].value = event.target.value;
@@ -47,7 +50,6 @@ const changeHandler = (event,id) =>{
     newState[id].valid = valiDate[0];
     newState[id].validationMessage = valiDate[1];
 
-    //console.log(newState);
 
     props.change(newState,id);
 
@@ -102,7 +104,7 @@ const showValidation = (values) => {
 const renderTemplates = (data) => {
     let formTemplate = '';
     let values = data.settings;
-
+    //console.log(values);
     switch(values.element){
         /*-------- Input  -------*/
         case('input'):
@@ -191,6 +193,18 @@ const renderTemplates = (data) => {
             </div>    
         )
         break;
+        case('editor'):
+        formTemplate = (
+            <div className="editor" >
+               <Editor
+                editorState = {values.config.editorState}
+                wrapperClassName = "myEditor-wrapper"
+                editorClassName = "myEditor-editor"
+                onEditorStateChange = { (event) => changeHandler(event,data.id) }
+                />
+            </div>    
+        )
+        break;
         default:
         formTemplate = null
     }
@@ -224,13 +238,15 @@ const submitForm = (event) => {
     let dataToSubmit = {};
 
     for(let key in props.formData){
-        if(props.formData[key].value === ""){
-            alert("please enter " + key );
-            return 
-        }else if(props.formData[key].valid === false ){
-            return
-        }
-        dataToSubmit[key] = props.formData[key].value
+        //if (props.formData[key].validation.required){
+            if(props.formData[key].value === ""){
+                alert("please enter " + key );
+                return 
+            }else if(props.formData[key].valid === false ){
+                return
+            }
+            dataToSubmit[key] = props.formData[key].value   
+        //}
     }
    
     props.submitData(dataToSubmit)
@@ -240,7 +256,7 @@ const submitForm = (event) => {
 
     return(  
       
-            <Grid 
+         /*   <Grid 
                 container
                 direction="row"
                 justify="center"
@@ -249,8 +265,13 @@ const submitForm = (event) => {
             >
 
                 <Grid item
+                    xs={12}
+                    sm={6}
+                    md={5}
+                    lg={4}
                     className="form"
                 >
+                */
                     <Box
                     boxShadow={3}
                     >   
@@ -266,12 +287,12 @@ const submitForm = (event) => {
                         </Card> 
 
                     </Box>
-                    
+               /*     
                 </Grid>
                 
             </Grid>    
         
-       
+       */
     )
 
 }

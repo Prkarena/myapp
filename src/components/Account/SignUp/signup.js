@@ -4,6 +4,8 @@
  */
 import React , { Component } from 'react';
 import { Redirect  } from 'react-router-dom';
+import {Grid} from '@material-ui/core';
+
 import DynamicForm from '../../Widgets/DynamicForm/dynamicForm';
 /*-------- CSS -----------*/
 import './signup.css';
@@ -160,15 +162,34 @@ class SignUp extends Component  {
 
     render(){
 
-       const { redirect } = this.state;
+       const { formData,redirect } = this.state;
 
        let template = redirect ? <Redirect to="/login" /> :  
-        <DynamicForm 
-        for = {this.state.for}
-        formData = { this.state.formData }
-        change = {this.updateForm}
-        submitData = { this.submitData }
-            /> ;
+       (
+
+        <Grid 
+        container
+        direction="row"
+        justify="center"
+        alignItems="center"
+        className="dynamicForm"
+        >
+            <Grid item
+                xs={12}
+                sm={6}
+                md={5}
+                lg={4}
+                className="form"
+            >
+             <DynamicForm 
+                for = { this.state.for}
+                formData = { formData }
+                change = {this.updateForm}
+                submitData = { this.submitData }
+                />             
+            </Grid>
+        </Grid>
+        ) ;
             
         return(
             <div>           

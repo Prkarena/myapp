@@ -3966,3 +3966,118 @@ const DynamicForm = (props) => {
 
 
 export default DynamicForm;
+
+
+
+===============================dashboard
+
+
+
+
+/**
+ * dashbord.js : Admin
+ */
+import React , { Component } from 'react';
+ /****************** Editor ******************/
+ import { Editor } from 'react-draft-wysiwyg';
+ import { EditorState, convertFromRaw , convertToRaw } from 'draft-js';
+ import { stateToHtml, stateToHTML } from 'draft-js-export-html';
+
+/********************* Css ************************/
+import './dashbord.css';
+
+class Dashbord extends Component {
+    
+    state = {
+        editorState : EditorState.createEmpty(),
+    }
+
+    /*-------------- onEditorStateChange ----------------*/
+    onEditorStateChange = (editorState) => {
+
+        let contentState = editorState.getCurrentContent();
+        /*---------- convert data into json formate ---------------*/        
+        let rawState = convertToRaw(contentState);
+        /*---------- convert data into html formate ---------------*/        
+        let html = stateToHTML(contentState);
+
+            this.setState({
+                editorState
+            })
+    }
+
+    render(){
+        return(
+            <div 
+               className = "dashboard"
+            >
+
+            <Editor
+                editorState = {this.state.editorState}
+                wrapperClassName = "myEditor-wrapper"
+                editorClassName = "myEditor-editor"
+                onEditorStateChange = {this.onEditorStateChange}
+            />
+
+            </div>
+           )
+    }
+}
+
+
+export default Dashbord;
+
+
+
+===================================
+
+ console.log(postType)
+
+
+ this.setState({
+                        formData : {
+                            Type:{
+                                element:'select',
+                                value:'1',
+                                label:true,
+                                labelText:'Select Post',
+                                config:{
+                                  name:'post_type_input',
+                                  options:[
+                                      { val:'1', text:'Image'},
+                                      { val:'2', text:'Video'},
+                                      { val:'3', text:'Document'}
+                                  ]
+                                },validation:{
+                                    required:true
+                                },
+                                valid:false,
+                                touched:false,
+                                validationMessage:''
+                             },Image:{
+                                element:'input',
+                                value:'',
+                                label:true,
+                                labelText:'Image',
+                                config:{
+                                    name:'image_input',
+                                    type:'file',
+                                },validation:{
+                                    required:true
+                                },
+                                valid:false,
+                                touched:false,
+                                validationMessage:''
+                            },backButton:{
+                                element:'button',
+                                value:'Back',
+                                link:'/dashboard',
+                                config:{
+                                    variant:'contained',
+                                    color:'primary',
+                                    size:'small',
+                                    type:'button',
+                                },
+                            },
+                           }
+                    })

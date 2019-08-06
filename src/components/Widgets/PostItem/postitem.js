@@ -17,7 +17,7 @@ import './postitem.css';
 class PostItem extends Component {
 
     state = {
-        data : [] ,
+        data : [],
         id : "",
         post : "",
         img : ""
@@ -30,8 +30,6 @@ class PostItem extends Component {
         let action = this.props.match.url ;
     
         if(action.match(/post/)){
-
-     
 
         const docRef = firebasePosts.doc(post_id);
 
@@ -52,11 +50,7 @@ class PostItem extends Component {
             console.log("Error getting document:", error);
         });
 
-
-
-
     /*
-
 
             axios.get(`http://localhost:3001/Posts?id=${post_id}`)
             .then ( response => {
